@@ -1,9 +1,6 @@
 package InstallTest;
 
 import org.sikuli.script.App;
-import utils.DataProperties;
-
-import java.io.IOException;
 
 /**
  * Created by DespicableMe on 17.02.2016.
@@ -15,7 +12,4 @@ abstract class BaseInstall {
         installer.open().focus();
     }
 
-    protected boolean assertInstalation() {
-        return false;
-    }
 }

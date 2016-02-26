@@ -1,33 +1,34 @@
 package Ui_Test;
 
 
-import InstallTest.installScreens;
+import InstallTest.InstallNumberok;
+import org.junit.Assert;
 import org.junit.Test;
 
 
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Screen;
-import utils.DataProperties;
+import utils.Props;
 
 
 /**
  * Created by DespicableMe on 17.02.2016.
  * Описание:
  */
-public class sikuliTest {
+public class installTest {
     final Screen sDriver = new Screen();
 
     @Test
     public void install() {
         System.out.println("Installing started");
-        installScreens install = new installScreens(sDriver);
+        InstallNumberok install = new InstallNumberok(sDriver);
 
         install.runInstall();
         
         try {
             install
                     .langScreen()
-                    .licenzeScreen(DataProperties.get("license.All_SMB"))
+                    .licenzeScreen(Props.get("license.All_SMB"))
                     .hiScreen()
                     .infoScreen()
                     .workCatScreen()
@@ -35,12 +36,16 @@ public class sikuliTest {
                     .shootsScreen()
                     .installCatScreen()
                     .shortCutScreen()
-                    .readyInstallScreen();
-
+                    .readyInstallScreen()
+                    .waitForIt()
+                    .drivers();
         } catch (FindFailed findFailed) {
-//            findFailed.printStackTrace();
-            System.out.println(findFailed);
+            Assert.assertTrue(findFailed.getMessage(),false);
+            return;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         System.out.println("installing finished");
     }
+
 }
