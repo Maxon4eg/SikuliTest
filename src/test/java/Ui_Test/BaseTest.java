@@ -11,7 +11,7 @@ import java.io.IOException;
  * Описание:
  */
 public class BaseTest {
-    private static Process numberok;
+    private static Process numberok;//After class we're destroying process
 
 
     @BeforeClass

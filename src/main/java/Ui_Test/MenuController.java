@@ -15,7 +15,6 @@ public class MenuController {
     private MenuButton reports;
     private MenuButton settings;
     private Region region;
-    private MenuButton viewActive;
 
     public MenuController() {
     }

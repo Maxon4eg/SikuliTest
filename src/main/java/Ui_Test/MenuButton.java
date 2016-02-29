@@ -20,4 +20,5 @@ public class MenuButton {
     public Location getLocation() {
         return location;
     }
+
 }

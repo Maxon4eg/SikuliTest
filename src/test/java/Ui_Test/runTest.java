@@ -20,12 +20,25 @@ public class runTest extends BaseTest {
     public void start() throws InterruptedException {
         Screen screen = new Screen();
         MainPage mp = new MainPage(screen);
+        SettingsPage sp;
         Assert.assertTrue("Numberok do not appeared",mp.isAppear());
         screen = mp.maximize();
         mc.getButtonsLocation(screen);
-        mc.clickView();
-        Thread.sleep(1000);
-        mc.clickCarDB();
+        mc.clickSettings();
+        sp = new SettingsPage(screen);
+
+        sp.switchMode(3)
+                .switchMode(1)
+                .warningClick(1)
+                .switchMode(3);
+
+        sp.clickIntegration()
+                .clickGeneral()
+                .clickUsers()
+                .clickParking()
+                .clickConnection()
+                .clickCheckpoint();
+
     }
 
 }

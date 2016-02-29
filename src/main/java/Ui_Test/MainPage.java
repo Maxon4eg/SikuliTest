@@ -1,5 +1,6 @@
 package Ui_Test;
 
+import javafx.beans.binding.When;
 import org.junit.Assert;
 import org.sikuli.script.*;
 import utils.Props;
@@ -16,21 +17,22 @@ public class MainPage extends AbstractPage {
         this.screen = screen;
     }
 
-    public boolean isAppear (){
+    public boolean isAppear() {
         Pattern viewPage = new Pattern(Props.getPathForRun("Main_Page.png"));
         try {
-            screen.wait(viewPage,20);
+            screen.wait(viewPage, 20);
             System.out.println("numberok Started successfully");
+
         } catch (FindFailed findFailed) {
-            Assert.assertTrue(findFailed.getLocalizedMessage(),false);
+            Assert.assertTrue(findFailed.getLocalizedMessage(), false);
             return false;
         }
         return true;
     }
 
     public Screen maximize() {
-        Pattern pattern = new Pattern(Props.getPathForRun("_winContr.png")).targetOffset(-15,0);// смещение цели -x:left, -y:up
-        Region region = screen.exists(pattern) ;
+        Pattern pattern = new Pattern(Props.getPathForRun("_winContr.png")).targetOffset(-15, 0);// смещение цели -x:left, -y:up
+        Region region = screen.exists(pattern);
 
         try {
             region.click(pattern);
