@@ -17,18 +17,18 @@ import utils.Props;
  */
 public class installTest {
     final Screen sDriver = new Screen();
-
+    String version = "1849";
     @Test
     public void install() {
         System.out.println("Installing started");
         InstallNumberok install = new InstallNumberok(sDriver);
 
-        install.runInstall();
+        install.runInstall(version);
         
         try {
             install
                     .langScreen()
-                    .licenzeScreen(Props.get("license.All_SMB"))
+                    .licenzeScreen(Props.getProperty("lic2Chan.All_SMB"))
                     .hiScreen()
                     .infoScreen()
                     .workCatScreen()

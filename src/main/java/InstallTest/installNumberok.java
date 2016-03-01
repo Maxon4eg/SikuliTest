@@ -16,15 +16,15 @@ public class InstallNumberok extends BaseInstall {
     private Region region;
     private Pattern window;
     private Pattern NextButton;
-    private String version = "1849";
 
     public InstallNumberok(Screen sDriver) {
         this.sDriver = sDriver;
 
     }
 
-    public void runInstall() {
-        runInstall(Props.get("installer.path") + version + Props.get("installer"));
+    public void runInstall(String version) {
+
+        runInstall(Props.getProperty("installer.path") + version + Props.getProperty("installer"));
     }
 
     public InstallNumberok langScreen() throws FindFailed {

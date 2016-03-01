@@ -2,34 +2,22 @@ package Ui_Test;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import utils.Props;
-
-import java.io.IOException;
 
 /**
- * Created by DespicableMe on 26.02.2016.
+ * Created by DespicableMe on 29.02.2016.
  * Описание:
  */
-public class BaseTest {
-    private static Process numberok;//After class we're destroying process
-
+public class BaseTest extends AbstractPage  {
 
     @BeforeClass
     public static void run() {
-        try {
-            numberok = Runtime.getRuntime().exec(Props.get("NumberOK.exe"));
-            System.out.println("Numberok Started");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        AbstractPage.runNumberok();
+        System.out.println("\n============Numberok Started============ \n");
     }
 
     @AfterClass
     public static void tearDown() {
-//        numberok.destroy();
-        System.out.println("Numberok destroyed :)");
+//        AbstractPage.destroy();
+        System.out.println("\n===========Numberok destroyed :)=========\n");
     }
-
-
-
 }

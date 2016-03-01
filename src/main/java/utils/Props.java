@@ -19,9 +19,15 @@ public class Props {
     }
 
 
-    public static String get(String key) {
+    public static String getProperty(String key) {
         //just to use short name
         return PROPERTIES.getProperty(key);
+    }
+
+    public static int getInt(String key){
+
+
+        return new Integer(PROPERTIES.getProperty(key));
     }
 
     public static String getPathForRun( String file) {

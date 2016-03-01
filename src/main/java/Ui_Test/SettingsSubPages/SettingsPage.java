@@ -1,20 +1,18 @@
-package Ui_Test;
+package Ui_Test.SettingsSubPages;
 
-import org.sikuli.script.*;
+import Ui_Test.MenuButton;
+import Ui_Test.MainController;
+import org.sikuli.script.FindFailed;
+import org.sikuli.script.Location;
+import org.sikuli.script.Pattern;
 import utils.Props;
 
 /**
  * Created by DespicableMe on 29.02.2016.
  * Описание:
  */
-public class SettingsPage extends AbstractPage {
+public class SettingsPage extends MainController {
 
-    private Screen screen;
-    private GeneralPage gp;
-
-    public SettingsPage(Screen screen) {
-        this.screen = screen;
-    }
 
     private Location getButtonLoc(int button) {
         try {
@@ -48,6 +46,15 @@ public class SettingsPage extends AbstractPage {
 
     }
 
+    public void clickApply() {
+        Pattern button = new Pattern(Props.getPathForRun("Apply_GeneralPage.png"));
+        try {
+            screen.click(button);
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+    }
+
     /**
      * Можем работать с страницей General только после вызова этого метода !
      */
@@ -57,8 +64,7 @@ public class SettingsPage extends AbstractPage {
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
         }
-        gp = new GeneralPage(screen);
-        return this;
+        return new GeneralSubPage(screen);
     }
 
     public SettingsPage clickConnection() {
@@ -67,7 +73,7 @@ public class SettingsPage extends AbstractPage {
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
         }
-        return this;
+        return new ConnSubPage(screen);
     }
 
     public SettingsPage clickCheckpoint() {
@@ -107,33 +113,4 @@ public class SettingsPage extends AbstractPage {
         }
         return this;
     }
-
-    /**
-     * @param mode - change mode param :
-     *             1 - recognition
-     *             2 - Checkpoint
-     *             3 - Parking
-     */
-
-    public SettingsPage switchMode(int mode) {
-        clickGeneral();
-        try {
-            gp.setOperationMode(mode);
-        } catch (FindFailed findFailed) {
-            System.out.println("could not find radiobuttons " + findFailed.getMessage());
-            findFailed.printStackTrace();
-        }
-
-        return this;
-    }
-
-    /**
-     * @param button 1-ok 2 cancel
-     */
-    public SettingsPage warningClick(int button) {
-        gp.warningClick(button);
-        return this;
-    }
-
-
 }
