@@ -28,7 +28,7 @@ public class installTest {
         try {
             install
                     .langScreen()
-                    .licenzeScreen(Props.getProperty("lic2Chan.All_SMB"))
+                    .licenzeScreen(Props.getProperty("lic9Chan.All_SMB"))
                     .hiScreen()
                     .infoScreen()
                     .workCatScreen()

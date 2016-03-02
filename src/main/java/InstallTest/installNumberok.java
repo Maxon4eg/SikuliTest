@@ -22,9 +22,9 @@ public class InstallNumberok extends BaseInstall {
 
     }
 
-    public void runInstall(String version) {
+    public static void runInstall(String version) {
 
-        runInstall(Props.getProperty("installer.path") + version + Props.getProperty("installer"));
+        BaseInstall.runInstall(Props.getProperty("installer.path") + version + Props.getProperty("installer"));
     }
 
     public InstallNumberok langScreen() throws FindFailed {

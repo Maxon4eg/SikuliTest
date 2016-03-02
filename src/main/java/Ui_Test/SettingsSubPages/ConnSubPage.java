@@ -1,12 +1,11 @@
 package Ui_Test.SettingsSubPages;
 
+import org.junit.Assert;
 import org.sikuli.script.*;
+import utils.ButtonUtil;
 import utils.Props;
-import utils.SourcesButton;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,8 +18,18 @@ public class ConnSubPage extends SettingsPage {
     private Location rtsp;
     private Location camDvr;
     private Location video;
-    private Region region;
-    private ArrayList<SourcesButton> buttons;
+    private ArrayList<Location> buttons;
+    private boolean memorized = false;
+
+    private ButtonUtil source1;
+    private ButtonUtil source2;
+    private ButtonUtil source3;
+    private ButtonUtil source4;
+    private ButtonUtil source5;
+    private ButtonUtil source6;
+    private ButtonUtil source7;
+    private ButtonUtil source8;
+    private ButtonUtil source9;
 
     public ConnSubPage(Screen screen) {
         setScreen(screen);
@@ -76,12 +85,13 @@ public class ConnSubPage extends SettingsPage {
                     screen.type(data);
                     return this;
                 case 2:
-                    screen.click(camDvr.offset(20, 0));
-                    screen.type(data);
+                    System.out.println("Please enter correct data");
                     return this;
                 case 3:
                     screen.click(video.offset(20, 0));
                     screen.type(data);
+                    return this;
+                default:
                     return this;
             }
         } catch (FindFailed findFailed) {
@@ -89,6 +99,43 @@ public class ConnSubPage extends SettingsPage {
         }
         return this;
     }
+
+    /**
+     * НЕ ЗАБУДЬ СНАЧАЛА поставить радиобаттон chooseConn()
+     * Прегруженный метод для заполнения данных в поле cam/DVR
+     *
+     * @param dropdown выбрать тип камеры по факту количество раз нажать на стрелку вниз
+     * @param login ввести логин
+     * @param pass ввести пароль
+     * @param adress ввести драесс
+     */
+
+    public ConnSubPage typeConn(int dropdown, String login, String pass, String adress) {
+
+        try {
+            screen.doubleClick(camDvr.offset(15,0));
+        } catch (FindFailed findFailed) {
+            Assert.assertTrue(findFailed.getLocalizedMessage(), false);
+        }
+
+        for (int i = 0; i < dropdown; ++i) {
+            System.out.println("I'm workiing");
+            screen.type(Key.DOWN);
+        }
+        screen.type(Key.ENTER);
+        try {
+            screen.click(Props.getPathForRun("CamDVR_Login_ConnSubPage.png"));
+            screen.type(login);
+            screen.click(Props.getPathForRun("CamDVR_Pass_ConnSubPage.png"));
+            screen.type(pass);
+            screen.click(Props.getPathForRun("CamDVR_Adress_ConnSubPage.png"));
+            screen.type(adress);
+        } catch (FindFailed findFailed) {
+            Assert.assertTrue(findFailed.getLocalizedMessage(), false);
+        }
+        return this;
+    }
+
 
     public ConnSubPage clickConnect() {
         Pattern button = new Pattern(Props.getPathForRun("Connect_Button_ConnSubPage.png"));
@@ -119,37 +166,69 @@ public class ConnSubPage extends SettingsPage {
     }
 
     /**
-     * @param source номер канала ( счет каналов начинается с нуля)
+     * @param source Номер канала. Указывай аккуратно потому что я не знаю на сколько каналов номерок !
+     *               1 - первый канал
+     *               2 - второй
+     *               и так далее
      */
 
     public ConnSubPage switchVidSource(int source) {
-        try {
-            if (!sources(region)) {
-                region = screen.find(new Pattern(Props.getPathForRun("SourcesRegion_ConnSubPage.png")));
-            } else region.click(buttons.get(source).getLocation());
-        } catch (FindFailed findFailed) {
-            findFailed.printStackTrace();
+        if (!memorized) {
+            memoryButtonsLoc();
         }
-
+        try {
+            switch (source) {
+                case 1:
+                    screen.click(source1.getLocation());
+                    break;
+                case 2:
+                    screen.click(source2.getLocation());
+                    break;
+                case 3:
+                    screen.click(source3.getLocation());
+                    break;
+                case 4:
+                    screen.click(source4.getLocation());
+                    break;
+                case 5:
+                    screen.click(source5.getLocation());
+                    break;
+                case 6:
+                    screen.click(source6.getLocation());
+                    break;
+                case 7:
+                    screen.click(source7.getLocation());
+                    break;
+                case 8:
+                    screen.click(source8.getLocation());
+                    break;
+                case 9:
+                    screen.click(source9.getLocation());
+                    break;
+                default:
+                    System.out.println("please choose from 1 - 9 ");
+                    break;
+            }
+        } catch (FindFailed findFailed) {
+            Assert.assertTrue(findFailed.getLocalizedMessage(), false);
+        }
         return this;
     }
 
-    private boolean sources(Region region) {
-        Pattern firsSource = new Pattern(new Pattern(Props.getPathForRun("VideoSource1_ConnSubPage.png")));
-        Pattern sources = new Pattern(Props.getPathForRun("VideoSourceNA_ConnSubPage.png"));
-
-        buttons = new ArrayList<SourcesButton>();
+    private void memoryButtonsLoc() {
         try {
-            //find First Button
-            buttons.add(new SourcesButton(region.find(firsSource))); //add new obj to arr
-
-            Iterator<Match> match = region.findAll(sources);//find all sources
-            while (match.hasNext()) {
-                buttons.add(new SourcesButton(match.next()));//adding matches to arr
-            }
+            source1 = new ButtonUtil(screen, Props.getPathForRun("Source1_ConnSubPage.png"));
+            source2 = new ButtonUtil(screen, Props.getPathForRun("Source2_ConnSubPage.png"));
+            source3 = new ButtonUtil(screen, Props.getPathForRun("Source3_ConnSubPage.png"));
+            source4 = new ButtonUtil(screen, Props.getPathForRun("Source4_ConnSubPage.png"));
+            source5 = new ButtonUtil(screen, Props.getPathForRun("Source5_ConnSubPage.png"));
+            source6 = new ButtonUtil(screen, Props.getPathForRun("Source6_ConnSubPage.png"));
+            source7 = new ButtonUtil(screen, Props.getPathForRun("Source7_ConnSubPage.png"));
+            source8 = new ButtonUtil(screen, Props.getPathForRun("Source8_ConnSubPage.png"));
+            source9 = new ButtonUtil(screen, Props.getPathForRun("Source9_ConnSubPage.png"));
+            memorized = true;
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
         }
-        return true;
     }
 }

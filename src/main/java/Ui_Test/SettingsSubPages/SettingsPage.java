@@ -1,10 +1,10 @@
 package Ui_Test.SettingsSubPages;
 
-import utils.MenuButton;
 import Ui_Test.MainController;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Location;
 import org.sikuli.script.Pattern;
+import utils.ButtonUtil;
 import utils.Props;
 
 import java.util.concurrent.TimeUnit;
@@ -14,28 +14,35 @@ import java.util.concurrent.TimeUnit;
  * Описание:
  */
 public class SettingsPage extends MainController {
+    private ButtonUtil general;
+    private ButtonUtil connection;
+    private ButtonUtil checkpoint;
+    private ButtonUtil parking;
+    private ButtonUtil users;
+    private ButtonUtil integration;
 
 
     private Location getButtonLoc(int button) {
         try {
             switch (button) {
                 case 1:
-                    MenuButton general = new MenuButton(screen, Props.getPathForRun("General_SubPage.png"));
+                    if (general == null) general = new ButtonUtil(screen, Props.getPathForRun("General_SubPage.png"));
                     return general.getLocation();
                 case 2:
-                    MenuButton connection = new MenuButton(screen, Props.getPathForRun("Conn_SubPage.png"));
+                    if (connection == null)
+                        connection = new ButtonUtil(screen, Props.getPathForRun("Conn_SubPage.png"));
                     return connection.getLocation();
                 case 3:
-                    MenuButton checkpoint = new MenuButton(screen, Props.getPathForRun("Checkpoint_SubPage.png"));
+                    if (checkpoint==null)checkpoint = new ButtonUtil(screen, Props.getPathForRun("Checkpoint_SubPage.png"));
                     return checkpoint.getLocation();
                 case 4:
-                    MenuButton parking = new MenuButton(screen, Props.getPathForRun("Parking_SubPage.png"));
+                    if(parking==null)parking = new ButtonUtil(screen, Props.getPathForRun("Parking_SubPage.png"));
                     return parking.getLocation();
                 case 5:
-                    MenuButton integration = new MenuButton(screen, Props.getPathForRun("Integration_SubPage.png"));
+                    if(integration==null)integration = new ButtonUtil(screen, Props.getPathForRun("Integration_SubPage.png"));
                     return integration.getLocation();
                 case 6:
-                    MenuButton users = new MenuButton(screen, Props.getPathForRun("Users_SubPage.png"));
+                    if (users==null)users = new ButtonUtil(screen, Props.getPathForRun("Users_SubPage.png"));
                     return users.getLocation();
                 default:
                     System.out.println("Please choose from 1 - 6");
@@ -60,10 +67,8 @@ public class SettingsPage extends MainController {
         }
     }
 
-    /**
-     * Можем работать с страницей General только после вызова этого метода !
-     */
-    public SettingsPage clickGeneral() {
+
+    public GeneralSubPage clickGeneral() {
         try {
             screen.click(getButtonLoc(1));
         } catch (FindFailed findFailed) {
@@ -72,7 +77,7 @@ public class SettingsPage extends MainController {
         return new GeneralSubPage(screen);
     }
 
-    public SettingsPage clickConnection() {
+    public ConnSubPage clickConnection() {
         try {
             screen.click(getButtonLoc(2));
         } catch (FindFailed findFailed) {

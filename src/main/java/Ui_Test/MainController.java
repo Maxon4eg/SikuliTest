@@ -4,7 +4,7 @@ import org.sikuli.script.FindFailed;
 import org.sikuli.script.Match;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Region;
-import utils.MenuButton;
+import utils.ButtonUtil;
 import utils.Props;
 
 import java.util.ArrayList;
@@ -18,11 +18,11 @@ import java.util.List;
  */
 public class MainController extends AbstractPage {
     private boolean memorized;
-    private MenuButton view;
-    private MenuButton results;
-    private MenuButton carDB;
-    private MenuButton reports;
-    private MenuButton settings;
+    private ButtonUtil view;
+    private ButtonUtil results;
+    private ButtonUtil carDB;
+    private ButtonUtil reports;
+    private ButtonUtil settings;
     private Region region;
 
     /**
@@ -41,11 +41,11 @@ public class MainController extends AbstractPage {
     }
 
     private void getButtons() throws FindFailed {
-        view = new MenuButton(region, Props.getPathForRun("View2_Button.png"));
-        results = new MenuButton(region, Props.getPathForRun("Results_Button.png"));
-        carDB = new MenuButton(region, Props.getPathForRun("Car_Button.png"));
-        reports = new MenuButton(region, Props.getPathForRun("Reports_Button.png"));
-        settings = new MenuButton(region, Props.getPathForRun("Settings_Button.png"));
+        view = new ButtonUtil(region, Props.getPathForRun("View2_Button.png"));
+        results = new ButtonUtil(region, Props.getPathForRun("Results_Button.png"));
+        carDB = new ButtonUtil(region, Props.getPathForRun("Car_Button.png"));
+        reports = new ButtonUtil(region, Props.getPathForRun("Reports_Button.png"));
+        settings = new ButtonUtil(region, Props.getPathForRun("Settings_Button.png"));
     }
 
 

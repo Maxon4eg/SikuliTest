@@ -7,7 +7,7 @@ import org.sikuli.script.App;
  * Описание:
  */
 abstract class BaseInstall {
-    protected void runInstall(String pathInstaller) {
+    protected static void runInstall(String pathInstaller) {
         App installer = new App(pathInstaller);
         installer.open().focus();
     }
