@@ -1,11 +1,13 @@
 package Ui_Test.SettingsSubPages;
 
-import Ui_Test.MenuButton;
+import utils.MenuButton;
 import Ui_Test.MainController;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Location;
 import org.sikuli.script.Pattern;
 import utils.Props;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by DespicableMe on 29.02.2016.
@@ -47,11 +49,14 @@ public class SettingsPage extends MainController {
     }
 
     public void clickApply() {
-        Pattern button = new Pattern(Props.getPathForRun("Apply_GeneralPage.png"));
+        Pattern button = new Pattern(Props.getPathForRun("Apply_button_Settings.png"));
         try {
             screen.click(button);
+            TimeUnit.SECONDS.sleep(1);
         } catch (FindFailed findFailed) {
-            findFailed.printStackTrace();
+            System.out.println(findFailed.getLocalizedMessage());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

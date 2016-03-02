@@ -1,4 +1,4 @@
-package Ui_Test;
+package utils;
 
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Location;

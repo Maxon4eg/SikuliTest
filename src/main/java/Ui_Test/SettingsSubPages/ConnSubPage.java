@@ -2,7 +2,11 @@ package Ui_Test.SettingsSubPages;
 
 import org.sikuli.script.*;
 import utils.Props;
+import utils.SourcesButton;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -15,6 +19,8 @@ public class ConnSubPage extends SettingsPage {
     private Location rtsp;
     private Location camDvr;
     private Location video;
+    private Region region;
+    private ArrayList<SourcesButton> buttons;
 
     public ConnSubPage(Screen screen) {
         setScreen(screen);
@@ -108,6 +114,41 @@ public class ConnSubPage extends SettingsPage {
         } catch (InterruptedException e) {
             e.printStackTrace();
             return false;
+        }
+        return true;
+    }
+
+    /**
+     * @param source номер канала ( счет каналов начинается с нуля)
+     */
+
+    public ConnSubPage switchVidSource(int source) {
+        try {
+            if (!sources(region)) {
+                region = screen.find(new Pattern(Props.getPathForRun("SourcesRegion_ConnSubPage.png")));
+            } else region.click(buttons.get(source).getLocation());
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+
+        return this;
+    }
+
+    private boolean sources(Region region) {
+        Pattern firsSource = new Pattern(new Pattern(Props.getPathForRun("VideoSource1_ConnSubPage.png")));
+        Pattern sources = new Pattern(Props.getPathForRun("VideoSourceNA_ConnSubPage.png"));
+
+        buttons = new ArrayList<SourcesButton>();
+        try {
+            //find First Button
+            buttons.add(new SourcesButton(region.find(firsSource))); //add new obj to arr
+
+            Iterator<Match> match = region.findAll(sources);//find all sources
+            while (match.hasNext()) {
+                buttons.add(new SourcesButton(match.next()));//adding matches to arr
+            }
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
         }
         return true;
     }

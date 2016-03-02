@@ -22,13 +22,15 @@ public class FirstTest extends BaseTest {
         ViewPage vp;
         Assert.assertTrue("Can't find menu widget", gsp.isAppear());
         gsp.maximize();
-        gsp.findChannels();
         gsp.clickSettings();
         csp = (ConnSubPage) gsp.clickConnection();
         csp
+                .switchVidSource(1)
                 .chooseConn(3)
                 .typeConn(3, Props.getProperty("video.path"))
-                .clickConnect();
+                .switchVidSource(0)
+                .chooseConn(3)
+                .typeConn(3,Props.getProperty("video.path"));
         Assert.assertTrue("Video isn't started ", csp.isVideoAppear());
         csp.clickApply();
 

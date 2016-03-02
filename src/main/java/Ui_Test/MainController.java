@@ -4,12 +4,12 @@ import org.sikuli.script.FindFailed;
 import org.sikuli.script.Match;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Region;
+import utils.MenuButton;
 import utils.Props;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -31,7 +31,7 @@ public class MainController extends AbstractPage {
     private void memoryButtonsLocation() {
         Pattern mainMenu = new Pattern(Props.getPathForRun("MainMenu_Widget.png"));
         try {
-            region = screen.find(mainMenu).highlight();
+            region = screen.find(mainMenu);
             getButtons();
             memorized = true;
         } catch (FindFailed findFailed) {
