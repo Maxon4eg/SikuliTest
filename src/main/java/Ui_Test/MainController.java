@@ -1,15 +1,10 @@
 package Ui_Test;
 
 import org.sikuli.script.FindFailed;
-import org.sikuli.script.Match;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Region;
 import utils.ButtonUtil;
 import utils.Props;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 
 /**
@@ -24,6 +19,9 @@ public class MainController extends AbstractPage {
     private ButtonUtil reports;
     private ButtonUtil settings;
     private Region region;
+    protected static boolean stateSwitch ; // необходима статика , потому что потом переиспользуем
+    protected static boolean switchedOperationMode = false;
+
 
     /**
      * Необходимо использовать перед тем как нажимать какие либо кнопки меню
@@ -32,7 +30,7 @@ public class MainController extends AbstractPage {
         Pattern mainMenu = new Pattern(Props.getPathForRun("MainMenu_Widget.png"));
         try {
             region = screen.find(mainMenu);
-            getButtons();
+            getButtons(region);
             memorized = true;
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
@@ -40,21 +38,30 @@ public class MainController extends AbstractPage {
         }
     }
 
-    private void getButtons() throws FindFailed {
-        view = new ButtonUtil(region, Props.getPathForRun("View2_Button.png"));
+    private void getButtons(Region region) throws FindFailed {
+        view = new ButtonUtil(region, Props.getPathForRun("View_Button.png"));
         results = new ButtonUtil(region, Props.getPathForRun("Results_Button.png"));
         carDB = new ButtonUtil(region, Props.getPathForRun("Car_Button.png"));
         reports = new ButtonUtil(region, Props.getPathForRun("Reports_Button.png"));
         settings = new ButtonUtil(region, Props.getPathForRun("Settings_Button.png"));
     }
 
+    public ViewPage onViewPage (){
+        if (!memorized) {
+            memoryButtonsLocation();
+        }
+        return new ViewPage();
+    }
 
-    public MainController clickView() {
+
+    public ViewPage clickView() {
         if (!memorized) {
             memoryButtonsLocation();
         }
         try {
-            region.click(view.getLocation());
+
+            region.click(view.getPattern());
+            stateSwitch =!checkState(view);//инвертируем потому что изначально view активный , (в дебаге у нас true ! !  Какойто пиздец происходит ! )
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
             System.out.println("can't click View button " + findFailed.getMessage());
@@ -68,7 +75,8 @@ public class MainController extends AbstractPage {
         }
 
         try {
-            region.click(results.getLocation());
+            region.click(results.getPattern());
+            stateSwitch = checkState(results);
         } catch (FindFailed findFailed) {
             System.out.println("can't click results button " + findFailed.getMessage());
         }
@@ -81,7 +89,8 @@ public class MainController extends AbstractPage {
         }
 
         try {
-            region.click(carDB.getLocation());
+            region.click(carDB.getPattern());
+            stateSwitch = checkState(carDB);
         } catch (FindFailed findFailed) {
             System.out.println("can't click carDB button " + findFailed.getMessage());
         }
@@ -94,11 +103,11 @@ public class MainController extends AbstractPage {
         }
 
         try {
-            region.click(reports.getLocation());
+            region.click(reports.getPattern());
+            stateSwitch = checkState(reports);
         } catch (FindFailed findFailed) {
             System.out.println("can't click Reports button " + findFailed.getMessage());
         }
-        region.mouseMove(0, -20);
         return this;
     }
 
@@ -108,7 +117,8 @@ public class MainController extends AbstractPage {
         }
 
         try {
-            region.click(settings.getLocation());
+            region.click(settings.getPattern());
+            stateSwitch = checkState(settings);
         } catch (FindFailed findFailed) {
             System.out.println("can't click Settings button " + findFailed.getMessage());
         }
@@ -123,17 +133,18 @@ public class MainController extends AbstractPage {
             return true;
         } catch (FindFailed findFailed) {
             System.out.println("failed to find menu trying to focus window ");
+            try {
+                Pattern logo = new Pattern(Props.getPathForRun("WinPanleLogo.png"));
+                screen.click(logo);
+                screen.find(menu);
+                return true;
+            } catch (FindFailed findFailed2) {
+                findFailed2.printStackTrace();
+            }
         }
         System.out.println("numberok Started successfully");
 
-        try {
-            Pattern logo = new Pattern(Props.getPathForRun("WinPanleLogo.png"));
-            screen.click(logo);
-            screen.find(menu);
-            return true;
-        } catch (FindFailed findFailed) {
-            findFailed.printStackTrace();
-        }
+
         return false;
     }
 
@@ -142,37 +153,30 @@ public class MainController extends AbstractPage {
         Pattern pattern = new Pattern(Props.getPathForRun("_winContr.png")).targetOffset(-15, 0);// смещение цели -x:left, -y:up
 
         try {
-            region.click(pattern);
-            return;
+            screen.click(pattern);
         } catch (FindFailed findFailed) {
             System.out.println("could not maximize");
-        }
-        try {
-            pattern = new Pattern(Props.getPathForRun("_winContrHover.png")).targetOffset(-12, 0).similar((float) 0.8);
-            region.click(pattern);
-        } catch (FindFailed findFailed) {
-            System.out.println("could'nt find  = "+findFailed.getLocalizedMessage());
-        }
-
-    }
-
-
-    public MainController findChannels() {
-        List<Match> match = new ArrayList<Match>();
-
-        try {
-            Iterator<Match> matches = screen.findAllText("Video stream is not connected");
-            int i = 0;
-            while (matches.hasNext()) {
-                match.add(matches.next());
-                System.out.println("Channel #" + i++);
+            try {
+                pattern = new Pattern(Props.getPathForRun("_winContrHover.png")).targetOffset(-12, 0).similar((float) 0.8);
+                region.click(pattern);
+            } catch (FindFailed findFailed2) {
+                System.out.println("could'nt find  = " + findFailed2.getLocalizedMessage());
             }
-            System.out.println("Numbers of matches is " + match.size());
-        } catch (FindFailed findFailed) {
-            findFailed.printStackTrace();
         }
-
-        return this;
     }
 
+
+    protected boolean checkState(ButtonUtil button) {
+        int after = button.getTarget_RGB().getColor().getRGB();
+        int before = button.getRGB();
+//        System.out.println("================================");
+//        System.out.println("RGB BEFORE = " + before);
+//        System.out.println("RGB AFTER = " + after);
+        return after != before;
+    }
+
+    public boolean isStateSwitched() {
+//        System.out.println("Getter "+stateSwitch);
+        return stateSwitch;
+    }
 }

@@ -1,11 +1,11 @@
 package Ui_Test.SettingsSubPages;
 
+import Ui_Test.SettingsPage;
 import org.junit.Assert;
 import org.sikuli.script.*;
 import utils.ButtonUtil;
 import utils.Props;
 
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -18,7 +18,6 @@ public class ConnSubPage extends SettingsPage {
     private Location rtsp;
     private Location camDvr;
     private Location video;
-    private ArrayList<Location> buttons;
     private boolean memorized = false;
 
     private ButtonUtil source1;
@@ -30,11 +29,7 @@ public class ConnSubPage extends SettingsPage {
     private ButtonUtil source7;
     private ButtonUtil source8;
     private ButtonUtil source9;
-
-    public ConnSubPage(Screen screen) {
-        setScreen(screen);
-    }
-
+    private Region recognitionBlock;
 
     /**
      * @param conn 1 - RTSP Connection
@@ -72,9 +67,12 @@ public class ConnSubPage extends SettingsPage {
 
 
     /**
+     * НЕ ЗАБУДЬ СНАЧАЛА поставить радиобаттон chooseConn()
+     *
      * @param conn 1 - RTSP Connection
-     *             2 - Camera\DVR connection
-     *             3 - path to video
+     *             <br>2 - Что бы подключить камеру смотри tyopeConn(int,String,String,String)
+     *             <br>3 - path to video
+     * @param data path to video OR rtsp connection adress
      */
     public ConnSubPage typeConn(int conn, String data) {
 
@@ -105,15 +103,15 @@ public class ConnSubPage extends SettingsPage {
      * Прегруженный метод для заполнения данных в поле cam/DVR
      *
      * @param dropdown выбрать тип камеры по факту количество раз нажать на стрелку вниз
-     * @param login ввести логин
-     * @param pass ввести пароль
-     * @param adress ввести драесс
+     * @param login    ввести логин
+     * @param pass     ввести пароль
+     * @param adress   ввести драесс
      */
 
     public ConnSubPage typeConn(int dropdown, String login, String pass, String adress) {
 
         try {
-            screen.doubleClick(camDvr.offset(15,0));
+            screen.doubleClick(camDvr.offset(15, 0));
         } catch (FindFailed findFailed) {
             Assert.assertTrue(findFailed.getLocalizedMessage(), false);
         }
@@ -154,7 +152,7 @@ public class ConnSubPage extends SettingsPage {
             TimeUnit.SECONDS.sleep(1);
             Region region = screen.find(Props.getPathForRun("RSBlock_Region_ConnSubPage.png"));
             int rgb = region.rightAt(80).getColor().getRGB();
-            if (rgb == Props.getInt("Gray")) return false;
+            if (rgb == Props.getInt("RGB.Gray")) return false;
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
             return false;
@@ -229,6 +227,78 @@ public class ConnSubPage extends SettingsPage {
             memorized = true;
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
+        }
+    }
+
+    private void findRSBlock() {
+        try {
+            recognitionBlock = screen.find(Props.getPathForRun("RSBlock_Region_ConnSubPage.png"));
+        } catch (FindFailed findFailed) {
+            System.out.println(findFailed.getLocalizedMessage());
+        }
+    }
+
+    public void enableZone() {
+
+        if (recognitionBlock == null) {
+            findRSBlock();
+        }
+        try {
+            recognitionBlock.click(Props.getPathForRun("CheckBox.png"));
+        } catch (FindFailed findFailed) {
+            System.out.println(findFailed.getLocalizedMessage());
+        }
+    }
+
+    /**(+)ВПРАВО ,(-)ВЛЕВО
+     * @param angle - на сколько двигаем ползунок вправо (разница с выставляемым углом примерно в 20 и больше)
+     *              <br> !!! Если мы поставим 100 то угол у нас поменяется на  131
+     *              <br> если поставим 50 то угол поменяется на 70
+     *              <br> пока что лучше ничего нет :*(
+     */
+
+    public void setDirAngle(int angle) {
+        Region dirAngle = null;
+        Pattern dragger = new Pattern(Props.getPathForRun("Dragger_ConnSubPage.png"));
+        if (recognitionBlock == null) {
+            findRSBlock();
+        }
+        try {
+            dirAngle = recognitionBlock.find(Props.getPathForRun("DirAngle_ConnSubPage.png"));
+        } catch (FindFailed findFailed) {
+            System.out.println(findFailed.getLocalizedMessage());
+        }
+
+        if (dirAngle != null) {
+            try {
+                dirAngle.drag(dragger);
+                dirAngle.dropAt(dragger.targetOffset(angle, 0));
+            } catch (FindFailed findFailed) {
+                System.out.println(findFailed.getLocalizedMessage());
+            }
+        }
+    }
+
+    /**
+     * Ставь не больше  около 170
+     *
+     * @param sensitivity насколько двигаем ползунок (+)ВПРАВО ,(-)ВЛЕВО
+     *                    <br> !!! Если мы поставим 100 то у нас поменяется на  131 проц
+     *                    <br> если поставим 50 то поменяется на 70
+     *                    <br> пока что лучше ничего нет :*(
+     */
+
+    public void setSensitivity(int sensitivity) {
+        Pattern dragger = new Pattern(Props.getPathForRun("Dragger_ConnSubPage.png"));//нужно пересоздавать переменную Глобальную не получится
+        if (recognitionBlock == null) {
+            findRSBlock();
+        }
+        try {
+            Region sensBlock = recognitionBlock.find(Props.getPathForRun("Sensivity_ConnSubPage.png"));
+            sensBlock.drag(dragger);
+            sensBlock.dropAt(dragger.targetOffset(sensitivity, 0));
+        } catch (FindFailed findFailed) {
+            System.out.println(findFailed.getLocalizedMessage());
         }
     }
 }

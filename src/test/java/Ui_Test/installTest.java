@@ -17,7 +17,7 @@ import utils.Props;
  */
 public class installTest {
     final Screen sDriver = new Screen();
-    String version = "1849";
+    String version = "1888";
     @Test
     public void install() {
         System.out.println("Installing started");

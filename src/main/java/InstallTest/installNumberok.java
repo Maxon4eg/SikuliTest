@@ -29,8 +29,12 @@ public class InstallNumberok extends BaseInstall {
 
     public InstallNumberok langScreen() throws FindFailed {
         window = new Pattern(Props.getPathFor("lang.png"));
+        Pattern dropDown = new Pattern(Props.getPathFor("langDropdown.png"));
         Pattern ok = new Pattern(Props.getPathFor("ok.png"));
         region = sDriver.wait(window);// сохраняет границы окна
+        region.click(dropDown);
+        region.type("eng");
+        region.type(Key.ENTER);
         region.click(ok);
         return this;
     }

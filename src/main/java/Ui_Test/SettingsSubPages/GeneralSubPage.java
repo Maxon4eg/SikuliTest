@@ -1,11 +1,11 @@
 package Ui_Test.SettingsSubPages;
 
 
+import Ui_Test.SettingsPage;
 import org.junit.Assert;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Region;
-import org.sikuli.script.Screen;
 import utils.Props;
 
 /**
@@ -14,12 +14,9 @@ import utils.Props;
  */
 public class GeneralSubPage extends SettingsPage {
 
-    public GeneralSubPage (Screen screen) {
-        setScreen(screen);
-    }
 
     private Region generalRegion() {
-        clickGeneral();
+//        clickGeneral();
         Pattern page = new Pattern(Props.getPathForRun("Settings_Page.png"));
         try {
             return screen.find(page);
@@ -33,9 +30,9 @@ public class GeneralSubPage extends SettingsPage {
 
     /**
      * @param mode - change mode param :
-     *             1 - recognition
-     *             2 - Checkpoint
-     *             3 - Parking
+     *             <br>1 - recognition
+     *             <br>2 - Checkpoint
+     *             <br>3 - Parking
      */
 
     public SettingsPage setOperationMode(int mode) {
@@ -47,14 +44,17 @@ public class GeneralSubPage extends SettingsPage {
                 case 1:
                     modeButton = new Pattern(Props.getPathForRun("Recog_mode.png")).targetOffset(-55, 0);
                     region.click(modeButton);
+                    switchedOperationMode =true;
                     return this;
                 case 2:
                     modeButton = new Pattern(Props.getPathForRun("Checkpoint_mode.png")).targetOffset(-100, 0);
                     region.click(modeButton);
+                    switchedOperationMode =true;
                     return this;
                 case 3:
                     modeButton = new Pattern(Props.getPathForRun("Parking_mode.png")).targetOffset(-25, 0);
                     region.click(modeButton);
+                    switchedOperationMode =true;
                     return this;
                 default:
                     System.out.println("Please choose from 1-3");

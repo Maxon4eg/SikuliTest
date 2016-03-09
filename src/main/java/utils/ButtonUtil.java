@@ -10,15 +10,33 @@ import org.sikuli.script.Region;
  * Описание:
  */
 public class ButtonUtil {
+    private Pattern button;
+    private int RGB;
+    private Location target_RGB;
     private Location location;
 
 
-    public ButtonUtil(Region region , String patternPath) throws FindFailed {
-        this.location = region.find(new Pattern(patternPath).exact()).getTarget();
+    public ButtonUtil(Region region, String patternPath) throws FindFailed {
+        button = new Pattern(patternPath).exact();
+//        region.highlight(1,"GREEN");
+        this.target_RGB = region.find(button).getTopLeft();
+        this.RGB = target_RGB.getColor().getRGB();
+        this.location = region.find(button.exact()).getTarget();
     }
 
     public Location getLocation() {
         return location;
     }
 
+    public int getRGB() {
+        return RGB;
+    }
+
+    public Location getTarget_RGB() {
+        return target_RGB;
+    }
+
+    public Pattern getPattern() {
+        return button;
+    }
 }
