@@ -83,7 +83,7 @@ public class MainController extends AbstractPage {
         return this;
     }
 
-    public MainController clickCarDB() {
+    public CarDBPage clickCarDB() {
         if (!memorized) {
             memoryButtonsLocation();
         }
@@ -94,10 +94,10 @@ public class MainController extends AbstractPage {
         } catch (FindFailed findFailed) {
             System.out.println("can't click carDB button " + findFailed.getMessage());
         }
-        return this;
+        return new CarDBPage();
     }
 
-    public MainController clickReports() {
+    public ReportsPage clickReports() {
         if (!memorized) {
             memoryButtonsLocation();
         }
@@ -108,10 +108,10 @@ public class MainController extends AbstractPage {
         } catch (FindFailed findFailed) {
             System.out.println("can't click Reports button " + findFailed.getMessage());
         }
-        return this;
+        return new ReportsPage();
     }
 
-    public MainController clickSettings() {
+    public SettingsPage clickSettings() {
         if (!memorized) {
             memoryButtonsLocation();
         }
@@ -122,7 +122,7 @@ public class MainController extends AbstractPage {
         } catch (FindFailed findFailed) {
             System.out.println("can't click Settings button " + findFailed.getMessage());
         }
-        return this;
+        return new SettingsPage();
     }
 
 

@@ -1,5 +1,6 @@
 package Ui_Test;
 
+import Ui_Test.DBSubPage.GroupsSubPage;
 import Ui_Test.SettingsSubPages.ConnSubPage;
 import org.junit.*;
 import utils.Props;
@@ -81,9 +82,7 @@ public class FirstTest extends ConnSubPage {
 
     @Test
     public void test(){
-//        enableZone();
-        setDirAngle(100);
-        setSensitivity(200);
+
 
     }
 

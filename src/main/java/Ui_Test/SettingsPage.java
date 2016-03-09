@@ -1,5 +1,6 @@
 package Ui_Test;
 
+import Ui_Test.SettingsSubPages.CheckpointSubPage;
 import Ui_Test.SettingsSubPages.ConnSubPage;
 import Ui_Test.SettingsSubPages.GeneralSubPage;
 import org.sikuli.script.FindFailed;
@@ -113,7 +114,7 @@ public class SettingsPage extends MainController {
         return new ConnSubPage();
     }
 
-    public SettingsPage clickCheckpoint() {
+    public CheckpointSubPage clickCheckpoint() {
         try {
             ButtonUtil button = getButton(3);
             screen.click(button.getPattern());
@@ -121,7 +122,7 @@ public class SettingsPage extends MainController {
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
         }
-        return this;
+        return new CheckpointSubPage();
     }
 
     public SettingsPage clickParking() {

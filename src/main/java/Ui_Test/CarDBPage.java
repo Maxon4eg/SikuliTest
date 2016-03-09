@@ -8,6 +8,7 @@ import utils.Props;
  * Created by DespicableMe on 09.03.2016.
  * Описание:
  */
+@SuppressWarnings("Duplicates")
 public class CarDBPage extends MainController {
 
     public void clickGroups() {
@@ -23,6 +24,7 @@ public class CarDBPage extends MainController {
         try {
             ButtonUtil vehicles = new ButtonUtil(screen, Props.getPathForRun("Vehicles_Button_CarDBSubPage.png"));
             screen.click(vehicles.getPattern());
+            checkState(vehicles);
         } catch (FindFailed findFailed) {
             System.out.println(findFailed.getLocalizedMessage());
         }
@@ -32,8 +34,16 @@ public class CarDBPage extends MainController {
         try {
             ButtonUtil reactions = new ButtonUtil(screen, Props.getPathForRun("Reactions_Button_CarDBSubPage.png"));
             screen.click(reactions.getPattern());
+            checkState(reactions);
         } catch (FindFailed findFailed) {
-            System.out.println(findFailed.getLocalizedMessage());
+            try {
+                System.out.println("trying to find not active button ");
+                ButtonUtil reactionsNA = new ButtonUtil(screen, Props.getPathForRun("Reactions_NA_Button_CarDBSubPage.png"));
+                screen.click(reactionsNA.getPattern());
+                checkState(reactionsNA);
+            } catch (FindFailed findFailed1) {
+                System.out.println(findFailed1.getLocalizedMessage());
+            }
         }
     }
 
