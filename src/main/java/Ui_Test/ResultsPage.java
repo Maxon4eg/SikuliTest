@@ -1,5 +1,6 @@
 package Ui_Test;
 
+import Ui_Test.ResultsSubPages.RecognitionResults;
 import org.sikuli.script.FindFailed;
 import utils.ButtonUtil;
 import utils.Props;
@@ -33,7 +34,7 @@ public class ResultsPage extends MainController {
         }
     }
 
-    public void clickRecognitionResults() {
+    public RecognitionResults clickRecognitionResults() {
         try {
             ButtonUtil recResults = new ButtonUtil(screen, Props.getPathForRun("RecognitionResults_Button_ResutlsPage.png"));
             screen.click(recResults);
@@ -46,5 +47,6 @@ public class ResultsPage extends MainController {
                 System.out.println(findFailed1.getLocalizedMessage());
             }
         }
+        return new RecognitionResults();
     }
 }

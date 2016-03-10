@@ -1,5 +1,6 @@
 package Ui_Test;
 
+import Ui_Test.ResultsSubPages.RecognitionResults;
 import Ui_Test.SettingsSubPages.CheckpointSubPage;
 import Ui_Test.SettingsSubPages.ConnSubPage;
 import org.junit.AfterClass;
@@ -13,7 +14,7 @@ import org.sikuli.script.App;
  */
 public class TestForTest extends MainController {
 
-    @Test
+//    @Test
     public void testing(){
 //        clickView();
 //        clickSettings();
@@ -31,6 +32,11 @@ public class TestForTest extends MainController {
 //        clickReports().clickRecResults();
 //        clickReports().clickGenerate();
 //        clickReports().clickMakeExcelFile();
+    }
+    @Test
+    public void observe (){
+
+
     }
 
 

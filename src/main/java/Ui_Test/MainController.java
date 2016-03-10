@@ -12,6 +12,9 @@ import utils.Props;
  * Описание:
  */
 public class MainController extends AbstractPage {
+    protected static boolean stateSwitch; // необходима статика , потому что потом переиспользуем
+    protected static boolean switchedOperationMode = false;
+    protected Pattern emptyCheckbox = new Pattern(Props.getPathForRun("_EmptyCheckBox.png"));
     private boolean memorized;
     private ButtonUtil view;
     private ButtonUtil results;
@@ -19,9 +22,6 @@ public class MainController extends AbstractPage {
     private ButtonUtil reports;
     private ButtonUtil settings;
     private Region region;
-    protected static boolean stateSwitch ; // необходима статика , потому что потом переиспользуем
-    protected static boolean switchedOperationMode = false;
-
 
     /**
      * Необходимо использовать перед тем как нажимать какие либо кнопки меню
@@ -32,7 +32,7 @@ public class MainController extends AbstractPage {
             region = screen.find(mainMenu);
             getButtons(region);
             memorized = true;
-        } catch (FindFailed findFailed) {
+        } catch (FindFailed findFailed){
             findFailed.printStackTrace();
             memorized = false;
         }
@@ -46,7 +46,7 @@ public class MainController extends AbstractPage {
         settings = new ButtonUtil(region, Props.getPathForRun("Settings_Button.png"));
     }
 
-    public ViewPage onViewPage (){
+    public ViewPage onViewPage() {
         if (!memorized) {
             memoryButtonsLocation();
         }
@@ -61,8 +61,8 @@ public class MainController extends AbstractPage {
         try {
 
             region.click(view.getPattern());
-            stateSwitch =!checkState(view);//инвертируем потому что изначально view активный , (в дебаге у нас true ! !  Какойто пиздец происходит ! )
-        } catch (FindFailed findFailed) {
+            stateSwitch = !checkState(view);//инвертируем потому что изначально view активный , (в дебаге у нас true ! !  Какойто пиздец происходит ! )
+        } catch (FindFailed findFailed){
             findFailed.printStackTrace();
             System.out.println("can't click View button " + findFailed.getMessage());
         }
@@ -77,7 +77,7 @@ public class MainController extends AbstractPage {
         try {
             region.click(results.getPattern());
             stateSwitch = checkState(results);
-        } catch (FindFailed findFailed) {
+        } catch (FindFailed findFailed){
             System.out.println("can't click results button " + findFailed.getMessage());
         }
         return this;
@@ -91,7 +91,7 @@ public class MainController extends AbstractPage {
         try {
             region.click(carDB.getPattern());
             stateSwitch = checkState(carDB);
-        } catch (FindFailed findFailed) {
+        } catch (FindFailed findFailed){
             System.out.println("can't click carDB button " + findFailed.getMessage());
         }
         return new CarDBPage();
@@ -105,7 +105,7 @@ public class MainController extends AbstractPage {
         try {
             region.click(reports.getPattern());
             stateSwitch = checkState(reports);
-        } catch (FindFailed findFailed) {
+        } catch (FindFailed findFailed){
             System.out.println("can't click Reports button " + findFailed.getMessage());
         }
         return new ReportsPage();
@@ -119,7 +119,7 @@ public class MainController extends AbstractPage {
         try {
             region.click(settings.getPattern());
             stateSwitch = checkState(settings);
-        } catch (FindFailed findFailed) {
+        } catch (FindFailed findFailed){
             System.out.println("can't click Settings button " + findFailed.getMessage());
         }
         return new SettingsPage();
@@ -131,14 +131,14 @@ public class MainController extends AbstractPage {
         try {
             region = screen.wait(menu, 20);
             return true;
-        } catch (FindFailed findFailed) {
+        } catch (FindFailed findFailed){
             System.out.println("failed to find menu trying to focus window ");
             try {
                 Pattern logo = new Pattern(Props.getPathForRun("WinPanleLogo.png"));
                 screen.click(logo);
                 screen.find(menu);
                 return true;
-            } catch (FindFailed findFailed2) {
+            } catch (FindFailed findFailed2){
                 findFailed2.printStackTrace();
             }
         }
@@ -154,12 +154,12 @@ public class MainController extends AbstractPage {
 
         try {
             screen.click(pattern);
-        } catch (FindFailed findFailed) {
+        } catch (FindFailed findFailed){
             System.out.println("could not maximize");
             try {
                 pattern = new Pattern(Props.getPathForRun("_winContrHover.png")).targetOffset(-12, 0).similar((float) 0.8);
                 region.click(pattern);
-            } catch (FindFailed findFailed2) {
+            } catch (FindFailed findFailed2){
                 System.out.println("could'nt find  = " + findFailed2.getLocalizedMessage());
             }
         }
