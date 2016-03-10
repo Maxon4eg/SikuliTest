@@ -14,27 +14,28 @@ import org.sikuli.script.App;
  */
 public class TestForTest extends MainController {
 
+
 //    @Test
     public void testing(){
-//        clickView();
-//        clickSettings();
-//        clickCarDB().clickReactions();
-//        clickCarDB().clickVehicles();
-//        clickCarDB().clickGroups();
+        clickView();
+        clickSettings();
+        clickCarDB().clickReactions();
+        clickCarDB().clickVehicles();
+        clickCarDB().clickGroups();
 
         CheckpointSubPage cp = clickSettings().clickCheckpoint();
         cp.passageDetermination(3);
-//        cp.chooseCP(2);
-//        cp.cpEntry(1,1,1);
-
-
-//        clickReports().clickGroupedByEvent();
-//        clickReports().clickRecResults();
-//        clickReports().clickGenerate();
-//        clickReports().clickMakeExcelFile();
+        cp.chooseCP(2);
+        cp.cpEntry(1,1,1);
+        cp.cpEntry(1,1,1);
+        clickReports().clickGroupedByEvent();
+        clickReports().clickRecResults();
+        clickReports().clickGenerate();
+        clickReports().clickMakeExcelFile();
     }
     @Test
     public void observe (){
+
 
 
     }
