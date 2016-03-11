@@ -35,16 +35,26 @@ public class GroupsSubPage extends CarDBPage {
         return date;
     }
 
-    public GroupsSubPage setAllowBy (int by){
-
-        switch (by){
-            case 1://by date
-                break;
-            case 2://by time
-                break;
-            case 3://by time and date
-                break;
+    public GroupsSubPage setAllowBy(int by) {
+        Region date = allowByDate();
+        try {
+            switch (by) {
+                case 1://by date
+                    date.click(dateCheckbox.targetOffset(-20, 0));
+                    break;
+                case 2://by time
+                    date.click(timeCheckbox.targetOffset(-20, 0));
+                    break;
+                case 3://by time and date
+                    date.click(dateCheckbox.targetOffset(-20, 0));
+                    date.click(timeCheckbox.targetOffset(-20, 0));
+                    break;
+            }
+        } catch (FindFailed findFailed){
+            System.out.println(findFailed.getLocalizedMessage());
         }
+        return this;
     }
+
 
 }

@@ -35,7 +35,7 @@ public class GeneralSubPage extends SettingsPage {
      *             <br>3 - Parking
      */
 
-    public SettingsPage setOperationMode(int mode) {
+    public GeneralSubPage setOperationMode(int mode) {
         Pattern modeButton;
         Region region = generalRegion();
         Assert.assertTrue(region != null);
