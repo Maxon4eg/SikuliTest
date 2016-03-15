@@ -18,31 +18,38 @@ import java.util.Iterator;
 
 public class CheckpointSubPage extends SettingsPage {
 
+    private ButtonUtil channelEntry;
+    private ButtonUtil zoneDropdown;
+    private ButtonUtil accessDropdown;
+    private ButtonUtil accessDropdownExit;
+    private ButtonUtil channelExit;
+    private ButtonUtil zoneDropdownExit;
+
     private ButtonUtil findCP(int cp) {
         try {
             switch (cp) {
                 case 1:
-                    return new ButtonUtil(screen, Props.getPathForRun("CP1_Button_CPSubPage.png"));
+                    return new ButtonUtil(screen, Props.pathForRun("CP1_Button_CPSubPage.png"));
                 case 2:
-                    return new ButtonUtil(screen, Props.getPathForRun("CP2_Button_CPSubPage.png"));
+                    return new ButtonUtil(screen, Props.pathForRun("CP2_Button_CPSubPage.png"));
                 case 3:
-                    return new ButtonUtil(screen, Props.getPathForRun("CP3_Button_CPSubPage.png"));
+                    return new ButtonUtil(screen, Props.pathForRun("CP3_Button_CPSubPage.png"));
                 case 4:
-                    return new ButtonUtil(screen, Props.getPathForRun("CP4_Button_CPSubPage.png"));
+                    return new ButtonUtil(screen, Props.pathForRun("CP4_Button_CPSubPage.png"));
                 case 5:
-                    return new ButtonUtil(screen, Props.getPathForRun("CP5_Button_CPSubPage.png"));
+                    return new ButtonUtil(screen, Props.pathForRun("CP5_Button_CPSubPage.png"));
                 case 6:
-                    return new ButtonUtil(screen, Props.getPathForRun("CP6_Button_CPSubPage.png"));
+                    return new ButtonUtil(screen, Props.pathForRun("CP6_Button_CPSubPage.png"));
                 case 7:
-                    return new ButtonUtil(screen, Props.getPathForRun("CP7_Button_CPSubPage.png"));
+                    return new ButtonUtil(screen, Props.pathForRun("CP7_Button_CPSubPage.png"));
                 case 8:
-                    return new ButtonUtil(screen, Props.getPathForRun("CP8_Button_CPSubPage.png"));
+                    return new ButtonUtil(screen, Props.pathForRun("CP8_Button_CPSubPage.png"));
                 case 9:
-                    return new ButtonUtil(screen, Props.getPathForRun("CP9_Button_CPSubPage.png"));
+                    return new ButtonUtil(screen, Props.pathForRun("CP9_Button_CPSubPage.png"));
                 default:
                     return null;
             }
-        } catch (FindFailed findFailed){
+        } catch (FindFailed findFailed) {
             System.out.println(findFailed.getLocalizedMessage());
             return null;
         }
@@ -60,7 +67,7 @@ public class CheckpointSubPage extends SettingsPage {
                 screen.click(cp.getPattern());
                 checkState(cp);
             }
-        } catch (FindFailed findFailed){
+        } catch (FindFailed findFailed) {
             System.out.println(findFailed.getLocalizedMessage());
         }
 
@@ -75,40 +82,74 @@ public class CheckpointSubPage extends SettingsPage {
      * @param access        выбор доступа
      */
 
-    public void cpEntry(int chooseChannel, int chooseZone, int access) {
-        Pattern dropdown = new Pattern(Props.getPathForRun("DropDown_CPSubPage.png"));
-        ArrayList<Match> matches = new ArrayList<>();
-        Region entry;
-        try {
-            entry = screen.find(Props.getPathForRun("EntryCP_CPSubPage.png"));
-            Iterator<Match> matchIterator = entry.findAll(dropdown);
-            while (matchIterator.hasNext()) {
-                matches.add(matchIterator.next());
-            }
-            Collections.sort(matches);
-            Collections.reverse(matches);
-            for (int i = 0; i < matches.size(); i++) {
-                matches.get(i).highlight(1);
-            }
+    public CheckpointSubPage cpEntry(int chooseChannel, int chooseZone, int access) {
+        Region entry = null;
+        String key = Key.DOWN;
 
-            matches.get(2).click();//так отсортировало что это третий в листе
-            for (int i = 1; i < chooseChannel + 1; i++) {
-                entry.type(Key.DOWN);
-            }
-            entry.type(Key.ENTER);
-            matches.get(0).click();
-            for (int i = 1; i < chooseZone + 1; i++) {
-                entry.type(Key.DOWN);
-            }
-            entry.type(Key.ENTER);
-            matches.get(1).click();
-            for (int i = 1; i < access + 1; i++) {
-                entry.type(Key.DOWN);
-            }
-            entry.type(Key.ENTER);
-        } catch (FindFailed findFailed){
-            System.out.println(findFailed.getLocalizedMessage());
+
+        try {
+            entry = screen.find(Props.pathForRun("EntryCP_CPSubPage.png"));
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
         }
+
+        if (channelEntry == null && entry != null) {
+            try {
+                channelEntry = new ButtonUtil(entry, Props.pathForRun("DisabledDropdown_button_CPSubPage.png"));
+                zoneDropdown = new ButtonUtil(entry, Props.pathForRun("ZoneDropdown_CPSubPage.png"));
+                accessDropdown = new ButtonUtil(entry, Props.pathForRun("AccesDropdown_CPSubPage.png"));
+
+            } catch (FindFailed findFailed) {
+                System.out.println(findFailed.getLocalizedMessage());
+            }
+        }
+        try {
+            assert entry != null;
+
+            entry.click(channelEntry.getLocation());
+            Thread.sleep(300);
+            if (chooseChannel < 0) {
+                key = Key.UP;
+            }
+            for (int i = 1; i < chooseChannel + 1; i++) {
+                entry.type(key);
+
+            }
+            entry.type(Key.ENTER);
+
+
+
+            key = Key.DOWN;//пререзаписываем обратно на down
+            entry.click(zoneDropdown.getLocation());
+            Thread.sleep(300);
+            if (chooseZone < 0) {
+                key = Key.UP;
+            }
+            for (int i = 1; i < chooseZone + 1; i++) {
+                entry.type(key);
+            }
+            entry.type(Key.ENTER);
+
+
+            key = Key.DOWN;//пререзаписываем обратно на down
+            entry.click(accessDropdown.getLocation());
+            Thread.sleep(300);
+
+            if (access < 0) {
+                key = Key.UP;
+            }
+            for (int i = 1; i < access + 1; i++) {
+                entry.type(key);
+            }
+            entry.type(Key.ENTER);
+
+
+        } catch (FindFailed | InterruptedException findFailed) {
+            findFailed.printStackTrace();
+        }
+
+
+        return this;
     }
 
     /**
@@ -121,41 +162,75 @@ public class CheckpointSubPage extends SettingsPage {
      * @param access        выбор доступа
      */
 
-    public void cpExit(int chooseChannel, int chooseZone, int access) {
-        Pattern dropdown = new Pattern(Props.getPathForRun("DropDown_CPSubPage.png"));
-        Region entry ;
-        ArrayList<Match> matches = new ArrayList<>();
+    public CheckpointSubPage cpExit(int chooseChannel, int chooseZone, int access) {
+        Region entry = null;
+        String key = Key.DOWN;
+
+
         try {
-            entry = screen.find(Props.getPathForRun("ExitCP_CPSubPage.png"));
-
-            Iterator<Match> matchIterator = entry.findAll(dropdown);
-            while (matchIterator.hasNext()) {
-                matches.add(matchIterator.next());
-            }
-            Collections.sort(matches);
-            Collections.reverse(matches);
-            for (int i = 0; i < matches.size(); i++) {
-                matches.get(i).highlight(1);
-            }
-            matches.get(2).click();//так отсортировало что это третий в листе
-            for (int i = 1; i < chooseChannel + 1; i++) {
-                entry.type(Key.DOWN);
-            }
-            entry.type(Key.ENTER);
-            matches.get(0).click();
-            for (int i = 1; i < chooseZone + 1; i++) {
-                entry.type(Key.DOWN);
-            }
-            entry.type(Key.ENTER);
-            matches.get(1).click();
-            for (int i = 1; i < access + 1; i++) {
-                entry.type(Key.DOWN);
-            }
-            entry.type(Key.ENTER);
-
-        } catch (FindFailed findFailed){
-            System.out.println(findFailed.getLocalizedMessage());
+            entry = screen.find(Props.pathForRun("ExitCP_CPSubPage.png"));
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
         }
+
+        if (channelExit == null && entry != null) {
+            try {
+                channelExit = new ButtonUtil(entry, Props.pathForRun("DisabledDropdown_button_CPSubPage.png"));
+                zoneDropdownExit = new ButtonUtil(entry, Props.pathForRun("ZoneDropdown_CPSubPage.png"));
+                accessDropdownExit = new ButtonUtil(entry, Props.pathForRun("AccesDropdown_CPSubPage.png"));
+
+            } catch (FindFailed findFailed) {
+                System.out.println(findFailed.getLocalizedMessage());
+            }
+        }
+        try {
+            assert entry != null;
+
+            entry.click(channelExit.getLocation());
+            Thread.sleep(300);
+
+            if (chooseChannel < 0) {
+                key = Key.UP;
+            }
+            for (int i = 1; i < chooseChannel + 1; i++) {
+                entry.type(key);
+            }
+            entry.type(Key.ENTER);
+
+
+
+            key = Key.DOWN;//пререзаписываем обратно на down
+            entry.click(zoneDropdownExit.getLocation());
+            Thread.sleep(300);
+
+            if (chooseZone < 0) {
+                key = Key.UP;
+            }
+            for (int i = 1; i < chooseZone + 1; i++) {
+                entry.type(key);
+            }
+            entry.type(Key.ENTER);
+
+
+            key = Key.DOWN;//пререзаписываем обратно на down
+            entry.click(accessDropdownExit.getLocation());
+            Thread.sleep(300);
+
+            if (access < 0) {
+                key = Key.UP;
+            }
+            for (int i = 1; i < access + 1; i++) {
+                entry.type(key);
+            }
+            entry.type(Key.ENTER);
+
+
+        } catch (FindFailed | InterruptedException findFailed) {
+            findFailed.printStackTrace();
+        }
+
+
+        return this;
     }
 
     /**
@@ -166,10 +241,10 @@ public class CheckpointSubPage extends SettingsPage {
      */
 
     public void passageDetermination(int checkbox) {
-        Pattern sensors = new Pattern(Props.getPathForRun("CheckBoxSensors_CPSubPage.png"));
-        Pattern recognition = new Pattern(Props.getPathForRun("CheckBoxRecognition_CPSubPage.png"));
+        Pattern sensors = new Pattern(Props.pathForRun("CheckBoxSensors_CPSubPage.png"));
+        Pattern recognition = new Pattern(Props.pathForRun("CheckBoxRecognition_CPSubPage.png"));
         try {
-            Region region = screen.find(Props.getPathForRun("PassageDetermination_CPSubPage.png"));
+            Region region = screen.find(Props.pathForRun("PassageDetermination_CPSubPage.png"));
             switch (checkbox) {
                 case 1:
                     region.click(sensors);
@@ -185,7 +260,7 @@ public class CheckpointSubPage extends SettingsPage {
                     break;
             }
 
-        } catch (FindFailed findFailed){
+        } catch (FindFailed findFailed) {
             System.out.println(findFailed.getLocalizedMessage());
         }
     }

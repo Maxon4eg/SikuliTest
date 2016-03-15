@@ -21,8 +21,8 @@ public class InstallDrivers {
     }
 
     public InstallDrivers ftdi() throws FindFailed {
-        window = new Pattern(Props.getPathFor("FTDI.PNG"));
-        button = new Pattern(Props.getPathFor("Extract.PNG"));
+        window = new Pattern(Props.pathFor("FTDI.PNG"));
+        button = new Pattern(Props.pathFor("Extract.PNG"));
         region = sDriver.find(window);
         region.click(button);
 
@@ -30,8 +30,8 @@ public class InstallDrivers {
     }
 
     public InstallDrivers device() throws FindFailed {
-        window = new Pattern(Props.getPathFor("device.PNG"));
-        button = new Pattern(Props.getPathFor("nextButton.PNG"));
+        window = new Pattern(Props.pathFor("device.PNG"));
+        button = new Pattern(Props.pathFor("NextButtonDevice.png"));
 
         region = sDriver.find(window);
         region.click(button);
@@ -40,8 +40,8 @@ public class InstallDrivers {
     }
 
     private InstallDrivers deviceInstall() {
-        window = new Pattern(Props.getPathFor("readyDeviceScreen.PNG"));
-        button = new Pattern(Props.getPathFor("readyDevButt.PNG"));
+        window = new Pattern(Props.pathFor("readyDeviceScreen.PNG"));
+        button = new Pattern(Props.pathFor("readyDevButt.PNG")).similar((float) 0.68);
 
         try {
             region = sDriver.wait(window, 3);

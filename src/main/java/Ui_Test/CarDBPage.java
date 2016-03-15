@@ -11,57 +11,62 @@ import utils.Props;
 @SuppressWarnings("Duplicates")
 public class CarDBPage extends MainController {
 
-    public void clickGroups() {
+    public CarDBPage clickGroups() {
         try {
-            ButtonUtil groups = new ButtonUtil(screen, Props.getPathForRun("Groups_Button_CarDBSubPage.png"));
+            ButtonUtil groups = new ButtonUtil(screen, Props.pathForRun("Groups_Button_CarDBSubPage.png"));
             screen.click(groups.getPattern());
         } catch (FindFailed findFailed) {
             System.out.println(findFailed.getLocalizedMessage());
         }
+        return this;
     }
 
-    public void clickVehicles() {
+    public CarDBPage clickVehicles() {
         try {
-            ButtonUtil vehicles = new ButtonUtil(screen, Props.getPathForRun("Vehicles_Button_CarDBSubPage.png"));
+            ButtonUtil vehicles = new ButtonUtil(screen, Props.pathForRun("Vehicles_Button_CarDBSubPage.png"));
             screen.click(vehicles.getPattern());
             checkState(vehicles);
         } catch (FindFailed findFailed) {
             System.out.println(findFailed.getLocalizedMessage());
         }
+        return this;
     }
 
-    public void clickReactions() {
+    public CarDBPage clickReactions() {
         try {
-            ButtonUtil reactions = new ButtonUtil(screen, Props.getPathForRun("Reactions_Button_CarDBSubPage.png"));
+            ButtonUtil reactions = new ButtonUtil(screen, Props.pathForRun("Reactions_Button_CarDBSubPage.png"));
             screen.click(reactions.getPattern());
             checkState(reactions);
         } catch (FindFailed findFailed) {
             try {
                 System.out.println("trying to find not active button ");
-                ButtonUtil reactionsNA = new ButtonUtil(screen, Props.getPathForRun("Reactions_NA_Button_CarDBSubPage.png"));
+                ButtonUtil reactionsNA = new ButtonUtil(screen, Props.pathForRun("Reactions_NA_Button_CarDBSubPage.png"));
                 screen.click(reactionsNA.getPattern());
                 checkState(reactionsNA);
             } catch (FindFailed findFailed1) {
                 System.out.println(findFailed1.getLocalizedMessage());
             }
         }
+        return this;
     }
 
-    public void clickAdd() {
+    public CarDBPage clickAdd() {
         try {
-            ButtonUtil add = new ButtonUtil(screen, Props.getPathForRun("Add_Button_CarDBPage.png"));
+            ButtonUtil add = new ButtonUtil(screen, Props.pathForRun("Add_Button_CarDBPage.png"));
             screen.click(add.getPattern());
         } catch (FindFailed findFailed) {
             System.out.println(findFailed.getLocalizedMessage());
         }
+        return this;
     }
 
-    public void clickDelete() {
+    public CarDBPage clickDelete() {
         try {
-            ButtonUtil delete = new ButtonUtil(screen, Props.getPathForRun("Delete_Button_CarDBPage.png"));
+            ButtonUtil delete = new ButtonUtil(screen, Props.pathForRun("Delete_Button_CarDBPage.png"));
             screen.click(delete.getPattern());
         } catch (FindFailed findFailed) {
             System.out.println(findFailed.getLocalizedMessage());
         }
+        return this;
     }
 }

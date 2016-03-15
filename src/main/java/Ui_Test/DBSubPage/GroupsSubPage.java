@@ -13,8 +13,8 @@ import utils.Props;
 public class GroupsSubPage extends CarDBPage {
 
     private Region groupsRegion;
-    private Pattern dateCheckbox = new Pattern(Props.getPathForRun("DateWinCheckbox_GroupSubPage.png"));
-    private Pattern timeCheckbox = new Pattern(Props.getPathForRun("TimeWinCheckbox_GroupSubPage.png"));
+    private Pattern dateCheckbox = new Pattern(Props.pathForRun("DateWinCheckbox_GroupSubPage.png"));
+    private Pattern timeCheckbox = new Pattern(Props.pathForRun("TimeWinCheckbox_GroupSubPage.png"));
 
     public void newRegion() {
         // Задаем новый регион для работы
@@ -25,7 +25,7 @@ public class GroupsSubPage extends CarDBPage {
     private Region allowByDate() {
         Region date = null;
         try {
-            date = groupsRegion.find(Props.getPathForRun("AllowedByDate_GroupsSubPage.png"));
+            date = groupsRegion.find(Props.pathForRun("AllowedByDate_GroupsSubPage.png"));
             date.highlight(1);
             date.doubleClick(emptyCheckbox);
             date.click();

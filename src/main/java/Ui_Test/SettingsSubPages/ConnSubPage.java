@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
  * Created by DespicableMe on 29.02.2016.
  * Описание:
  */
+@SuppressWarnings("Duplicates")
 public class ConnSubPage extends SettingsPage {
 
 
@@ -42,17 +43,17 @@ public class ConnSubPage extends SettingsPage {
             switch (conn) {
 
                 case 1:
-                    connection = new Pattern(Props.getPathForRun("RTSP_Conn.png"));
+                    connection = new Pattern(Props.pathForRun("RTSP_Conn.png"));
                     rtsp = screen.find(connection).getTarget();
                     screen.click(connection.targetOffset(-25, 0));
                     return this;
                 case 2:
-                    connection = new Pattern(Props.getPathForRun("CameraDVR_ConnSubPage.png"));
+                    connection = new Pattern(Props.pathForRun("CameraDVR_ConnSubPage.png"));
                     camDvr = screen.find(connection).getTarget();
                     screen.click(connection.targetOffset(-15, 0));
                     return this;
                 case 3:
-                    connection = new Pattern(Props.getPathForRun("VideoConnect_ConnSubPage.png"));
+                    connection = new Pattern(Props.pathForRun("VideoConnect_ConnSubPage.png"));
                     video = screen.find(connection).getTarget();
                     screen.click(connection.targetOffset(-15, 0));
                     return this;
@@ -122,11 +123,11 @@ public class ConnSubPage extends SettingsPage {
         }
         screen.type(Key.ENTER);
         try {
-            screen.click(Props.getPathForRun("CamDVR_Login_ConnSubPage.png"));
+            screen.click(Props.pathForRun("CamDVR_Login_ConnSubPage.png"));
             screen.type(login);
-            screen.click(Props.getPathForRun("CamDVR_Pass_ConnSubPage.png"));
+            screen.click(Props.pathForRun("CamDVR_Pass_ConnSubPage.png"));
             screen.type(pass);
-            screen.click(Props.getPathForRun("CamDVR_Adress_ConnSubPage.png"));
+            screen.click(Props.pathForRun("CamDVR_Adress_ConnSubPage.png"));
             screen.type(adress);
         } catch (FindFailed findFailed) {
             Assert.assertTrue(findFailed.getLocalizedMessage(), false);
@@ -136,7 +137,7 @@ public class ConnSubPage extends SettingsPage {
 
 
     public ConnSubPage clickConnect() {
-        Pattern button = new Pattern(Props.getPathForRun("Connect_Button_ConnSubPage.png"));
+        Pattern button = new Pattern(Props.pathForRun("Connect_Button_ConnSubPage.png"));
 
         try {
             screen.click(button);
@@ -150,7 +151,7 @@ public class ConnSubPage extends SettingsPage {
     public boolean isVideoAppear() {
         try {
             TimeUnit.SECONDS.sleep(1);
-            Region region = screen.find(Props.getPathForRun("RSBlock_Region_ConnSubPage.png"));
+            Region region = screen.find(Props.pathForRun("RSBlock_Region_ConnSubPage.png"));
             int rgb = region.rightAt(80).getColor().getRGB();
             if (rgb == Props.getInt("RGB.Gray")) return false;
         } catch (FindFailed findFailed) {
@@ -215,56 +216,58 @@ public class ConnSubPage extends SettingsPage {
 
     private void memoryButtonsLoc() {
         try {
-            source1 = new ButtonUtil(screen, Props.getPathForRun("Source1_ConnSubPage.png"));
-            source2 = new ButtonUtil(screen, Props.getPathForRun("Source2_ConnSubPage.png"));
-            source3 = new ButtonUtil(screen, Props.getPathForRun("Source3_ConnSubPage.png"));
-            source4 = new ButtonUtil(screen, Props.getPathForRun("Source4_ConnSubPage.png"));
-            source5 = new ButtonUtil(screen, Props.getPathForRun("Source5_ConnSubPage.png"));
-            source6 = new ButtonUtil(screen, Props.getPathForRun("Source6_ConnSubPage.png"));
-            source7 = new ButtonUtil(screen, Props.getPathForRun("Source7_ConnSubPage.png"));
-            source8 = new ButtonUtil(screen, Props.getPathForRun("Source8_ConnSubPage.png"));
-            source9 = new ButtonUtil(screen, Props.getPathForRun("Source9_ConnSubPage.png"));
+            source1 = new ButtonUtil(screen, Props.pathForRun("Source1_ConnSubPage.png"));
+            source2 = new ButtonUtil(screen, Props.pathForRun("Source2_ConnSubPage.png"));
+            source3 = new ButtonUtil(screen, Props.pathForRun("Source3_ConnSubPage.png"));
+            source4 = new ButtonUtil(screen, Props.pathForRun("Source4_ConnSubPage.png"));
+            source5 = new ButtonUtil(screen, Props.pathForRun("Source5_ConnSubPage.png"));
+            source6 = new ButtonUtil(screen, Props.pathForRun("Source6_ConnSubPage.png"));
+            source7 = new ButtonUtil(screen, Props.pathForRun("Source7_ConnSubPage.png"));
+            source8 = new ButtonUtil(screen, Props.pathForRun("Source8_ConnSubPage.png"));
+            source9 = new ButtonUtil(screen, Props.pathForRun("Source9_ConnSubPage.png"));
             memorized = true;
         } catch (FindFailed findFailed) {
-            findFailed.printStackTrace();
         }
     }
 
     private void findRSBlock() {
         try {
-            recognitionBlock = screen.find(Props.getPathForRun("RSBlock_Region_ConnSubPage.png"));
+            recognitionBlock = screen.find(Props.pathForRun("RSBlock_Region_ConnSubPage.png"));
         } catch (FindFailed findFailed) {
             System.out.println(findFailed.getLocalizedMessage());
         }
     }
 
-    public void enableZone() {
+    public ConnSubPage enableZone() {
 
         if (recognitionBlock == null) {
             findRSBlock();
         }
         try {
-            recognitionBlock.click(Props.getPathForRun("CheckBox.png"));
+            recognitionBlock.click(Props.pathForRun("CheckBox.png"));
         } catch (FindFailed findFailed) {
             System.out.println(findFailed.getLocalizedMessage());
         }
+        return this;
     }
 
-    /**(+)ВПРАВО ,(-)ВЛЕВО
+    /**
+     * (+)ВПРАВО ,(-)ВЛЕВО
+     *
      * @param angle - на сколько двигаем ползунок вправо (разница с выставляемым углом примерно в 20 и больше)
      *              <br> !!! Если мы поставим 100 то угол у нас поменяется на  131
      *              <br> если поставим 50 то угол поменяется на 70
      *              <br> пока что лучше ничего нет :*(
      */
 
-    public void setDirAngle(int angle) {
+    public ConnSubPage setDirAngle(int angle) {
         Region dirAngle = null;
-        Pattern dragger = new Pattern(Props.getPathForRun("Dragger_ConnSubPage.png"));
+        Pattern dragger = new Pattern(Props.pathForRun("Dragger_ConnSubPage.png"));
         if (recognitionBlock == null) {
             findRSBlock();
         }
         try {
-            dirAngle = recognitionBlock.find(Props.getPathForRun("DirAngle_ConnSubPage.png"));
+            dirAngle = recognitionBlock.find(Props.pathForRun("DirAngle_ConnSubPage.png"));
         } catch (FindFailed findFailed) {
             System.out.println(findFailed.getLocalizedMessage());
         }
@@ -277,6 +280,7 @@ public class ConnSubPage extends SettingsPage {
                 System.out.println(findFailed.getLocalizedMessage());
             }
         }
+        return this;
     }
 
     /**
@@ -288,17 +292,104 @@ public class ConnSubPage extends SettingsPage {
      *                    <br> пока что лучше ничего нет :*(
      */
 
-    public void setSensitivity(int sensitivity) {
-        Pattern dragger = new Pattern(Props.getPathForRun("Dragger_ConnSubPage.png"));//нужно пересоздавать переменную Глобальную не получится
+    public ConnSubPage setSensitivity(int sensitivity) {
+        Pattern dragger = new Pattern(Props.pathForRun("Dragger_ConnSubPage.png"));//нужно пересоздавать переменную Глобальную не получится
         if (recognitionBlock == null) {
             findRSBlock();
         }
         try {
-            Region sensBlock = recognitionBlock.find(Props.getPathForRun("Sensivity_ConnSubPage.png"));
+            Region sensBlock = recognitionBlock.find(Props.pathForRun("Sensivity_ConnSubPage.png"));
             sensBlock.drag(dragger);
             sensBlock.dropAt(dragger.targetOffset(sensitivity, 0));
         } catch (FindFailed findFailed) {
             System.out.println(findFailed.getLocalizedMessage());
         }
+        return this;
     }
+
+    /**
+     * Адекватно работает только с первой зоной!
+     * старайся двигать максимум на +- 100
+     *
+     * @param x двигаем по горизонтали (+ВПРАВО) (-ВЛЕВО)
+     * @param y Двигаем по вертикали (+ВПРАВО) (-ВЛЕВО)
+     */
+
+    public ConnSubPage moveTopLeft(int x, int y) {
+        Pattern marker = new Pattern(Props.pathForRun("_ZoneMarkerTopLeft.png")).similar((float) 0.8);
+
+        try {
+            Location topLeft = screen.find(marker).getTarget();
+            screen.drag(topLeft);
+            screen.dropAt(topLeft.offset(x, y));
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+        return this;
+    }
+
+    /**
+     * Адекватно работает только с первой зоной!
+     * старайся двигать максимум на +- 100
+     *
+     * @param x двигаем по горизонтали (+ВПРАВО) (-ВЛЕВО)
+     * @param y Двигаем по вертикали (+ВПРАВО) (-ВЛЕВО)
+     */
+
+    public ConnSubPage moveTopRight(int x, int y) {
+        Pattern marker = new Pattern(Props.pathForRun("_ZoneMarkerTopRight.png")).similar((float) 0.8);
+
+        try {
+            Location target = screen.find(marker).getTarget();
+            screen.drag(target);
+            screen.dropAt(target.offset(x, y));
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+        return this;
+    }
+
+    /**
+     * Адекватно работает только с первой зоной!
+     * старайся двигать максимум на +- 100
+     *
+     * @param x двигаем по горизонтали (+ВПРАВО) (-ВЛЕВО)
+     * @param y Двигаем по вертикали (+ВПРАВО) (-ВЛЕВО)
+     */
+    public ConnSubPage moveBottomLeft(int x, int y) {
+        Pattern marker = new Pattern(Props.pathForRun("_ZoneMarkerBottomLeft.png")).similar((float) 0.8);
+
+        try {
+            Location target = screen.find(marker).getTarget();
+            screen.drag(target);
+            screen.dropAt(target.offset(x, y));
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+
+        return this;
+    }
+
+    /**
+     * Адекватно работает только с первой зоной!
+     * старайся двигать максимум на +- 100
+     *
+     * @param x двигаем по горизонтали (+ВПРАВО) (-ВЛЕВО)
+     * @param y Двигаем по вертикали (+ВПРАВО) (-ВЛЕВО)
+     */
+
+    public ConnSubPage moveBottomRight(int x, int y) {
+        Pattern marker = new Pattern(Props.pathForRun("_ZoneMarkerBottomRight.png")).similar((float) 0.8);
+
+        try {
+            Location target = screen.find(marker).getTarget();
+            screen.drag(target);
+            screen.dropAt(target.offset(x, y));
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+        return this;
+    }
+
+
 }

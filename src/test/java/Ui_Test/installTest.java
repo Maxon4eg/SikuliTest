@@ -17,7 +17,7 @@ import utils.Props;
  */
 public class installTest {
     final Screen sDriver = new Screen();
-    String version = "1888";
+    String version = "1895";
     @Test
     public void install() {
         System.out.println("Installing started");
@@ -28,7 +28,7 @@ public class installTest {
         try {
             install
                     .langScreen()
-                    .licenzeScreen(Props.getProperty("lic9Chan.All_SMB"))
+                    .licenzeScreen(Props.getProperty("9Chan.All_SMB"))
                     .hiScreen()
                     .infoScreen()
                     .workCatScreen()
@@ -47,5 +47,6 @@ public class installTest {
         }
         System.out.println("installing finished");
     }
+
 
 }

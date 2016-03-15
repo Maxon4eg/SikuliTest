@@ -17,7 +17,7 @@ public class GeneralSubPage extends SettingsPage {
 
     private Region generalRegion() {
 //        clickGeneral();
-        Pattern page = new Pattern(Props.getPathForRun("Settings_Page.png"));
+        Pattern page = new Pattern(Props.pathForRun("Settings_Page.png"));
         try {
             return screen.find(page);
 
@@ -42,17 +42,17 @@ public class GeneralSubPage extends SettingsPage {
         try {
             switch (mode) {
                 case 1:
-                    modeButton = new Pattern(Props.getPathForRun("Recog_mode.png")).targetOffset(-55, 0);
+                    modeButton = new Pattern(Props.pathForRun("Recog_mode.png")).targetOffset(-55, 0);
                     region.click(modeButton);
                     switchedOperationMode =true;
                     return this;
                 case 2:
-                    modeButton = new Pattern(Props.getPathForRun("Checkpoint_mode.png")).targetOffset(-100, 0);
+                    modeButton = new Pattern(Props.pathForRun("Checkpoint_mode.png")).targetOffset(-100, 0);
                     region.click(modeButton);
                     switchedOperationMode =true;
                     return this;
                 case 3:
-                    modeButton = new Pattern(Props.getPathForRun("Parking_mode.png")).targetOffset(-25, 0);
+                    modeButton = new Pattern(Props.pathForRun("Parking_mode.png")).targetOffset(-25, 0);
                     region.click(modeButton);
                     switchedOperationMode =true;
                     return this;
@@ -75,11 +75,11 @@ public class GeneralSubPage extends SettingsPage {
         try {
             switch (chose) {
                 case 1:
-                    button = new Pattern(Props.getPathForRun("OK_warningMsg.png"));
+                    button = new Pattern(Props.pathForRun("OK_warningMsg.png"));
                     screen.click(button);
                     return this;
                 case 2:
-                    button = new Pattern(Props.getPathForRun("Cancel_warningMsg.png"));
+                    button = new Pattern(Props.pathForRun("Cancel_warningMsg.png"));
                     screen.click(button);
                     return this;
 

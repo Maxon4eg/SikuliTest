@@ -12,7 +12,7 @@ public class ParkingSubPage extends SettingsPage {
 
     public ParkingSubPage clickAddParking (){
         try {
-            screen.click(Props.getPathForRun("AddParking_Button_ParkingSubPage.png"));
+            screen.click(Props.pathForRun("AddParking_Button_ParkingSubPage.png"));
         } catch (FindFailed findFailed){
             System.out.println(findFailed.getLocalizedMessage());
         }

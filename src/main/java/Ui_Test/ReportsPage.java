@@ -13,7 +13,7 @@ public class ReportsPage extends MainController {
 
     public ReportsPage clickMakeExcelFile() {
         try {
-            screen.click(Props.getPathForRun("Excel_Button_ReportsPage.png"));
+            screen.click(Props.pathForRun("Excel_Button_ReportsPage.png"));
         } catch (FindFailed findFailed) {
             System.out.println(findFailed.getLocalizedMessage());
         }
@@ -22,7 +22,7 @@ public class ReportsPage extends MainController {
 
     public void clickRecResults() {
         try {
-            ButtonUtil recResults = new ButtonUtil(screen,Props.getPathForRun("RecResults_Button_RepotsPage.png"));
+            ButtonUtil recResults = new ButtonUtil(screen,Props.pathForRun("RecResults_Button_RepotsPage.png"));
             screen.click(recResults.getPattern());
             checkState(recResults);
         } catch (FindFailed findFailed) {
@@ -33,7 +33,7 @@ public class ReportsPage extends MainController {
 
     public void clickGroupedByEvent() {
         try {
-            ButtonUtil groupedEvent = new ButtonUtil(screen,Props.getPathForRun("GroupedByEvent_Button_ReportsPage.png"));
+            ButtonUtil groupedEvent = new ButtonUtil(screen,Props.pathForRun("GroupedByEvent_Button_ReportsPage.png"));
             screen.click(groupedEvent.getPattern());
             checkState(groupedEvent);
         } catch (FindFailed findFailed) {
@@ -43,7 +43,7 @@ public class ReportsPage extends MainController {
     public void clickGenerate(){
 
         try {
-            screen.click(Props.getPathForRun("Generate_Button_ReportsPage.png"));
+            screen.click(Props.pathForRun("Generate_Button_ReportsPage.png"));
         } catch (FindFailed findFailed) {
             System.out.println(findFailed.getLocalizedMessage());
         }

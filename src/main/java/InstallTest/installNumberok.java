@@ -28,9 +28,9 @@ public class InstallNumberok extends BaseInstall {
     }
 
     public InstallNumberok langScreen() throws FindFailed {
-        window = new Pattern(Props.getPathFor("lang.png"));
-        Pattern dropDown = new Pattern(Props.getPathFor("langDropdown.png"));
-        Pattern ok = new Pattern(Props.getPathFor("ok.png"));
+        window = new Pattern(Props.pathFor("lang.png"));
+        Pattern dropDown = new Pattern(Props.pathFor("langDropdown.png"));
+        Pattern ok = new Pattern(Props.pathFor("ok.png"));
         region = sDriver.wait(window);// сохраняет границы окна
         region.click(dropDown);
         region.type("eng");
@@ -40,9 +40,9 @@ public class InstallNumberok extends BaseInstall {
     }
 
     public InstallNumberok licenzeScreen(String licenze) {
-        Pattern licenzeWindow = new Pattern(Props.getPathFor("licenze.PNG"));
-        Pattern sendLic = new Pattern(Props.getPathFor("licSendKeys.PNG"));
-        Pattern ok = new Pattern(Props.getPathFor("ok.png")).similar((float) 0.5);
+        Pattern licenzeWindow = new Pattern(Props.pathFor("licenze.PNG"));
+        Pattern sendLic = new Pattern(Props.pathFor("licSendKeys.PNG"));
+        Pattern ok = new Pattern(Props.pathFor("ok.png")).similar((float) 0.5);
 
         try {
 //            region.wait(licenzeWindow, 10); // ожидаем появления окна
@@ -58,15 +58,15 @@ public class InstallNumberok extends BaseInstall {
     }
 
     public InstallNumberok hiScreen() throws FindFailed {
-        window = new Pattern(Props.getPathFor("Hi.PNG"));
-        NextButton = new Pattern(Props.getPathFor("nextButton.png"));
+        window = new Pattern(Props.pathFor("Hi.PNG"));
+        NextButton = new Pattern(Props.pathFor("nextButton.png"));
         region = sDriver.wait(window,5000);
         region.click(NextButton);
         return this;
     }
 
     public InstallNumberok infoScreen() throws FindFailed {
-        window = new Pattern(Props.getPathFor("info.png"));
+        window = new Pattern(Props.pathFor("info.png"));
         region = sDriver.wait(window);
         region.click(NextButton);
         return this;
@@ -74,7 +74,7 @@ public class InstallNumberok extends BaseInstall {
 
 
     public InstallNumberok workCatScreen() throws FindFailed {
-        window = new Pattern(Props.getPathFor("WorkCat.PNG"));
+        window = new Pattern(Props.pathFor("WorkCat.PNG"));
         region = sDriver.wait(window);
         region.click(NextButton);
         return this;
@@ -82,14 +82,14 @@ public class InstallNumberok extends BaseInstall {
 
 
     public InstallNumberok dbScreen() throws FindFailed {
-        window = new Pattern(Props.getPathFor("DB.png"));
+        window = new Pattern(Props.pathFor("DB.png"));
         region = sDriver.wait(window);
         region.click(NextButton);
         return this;
     }
 
     public InstallNumberok shootsScreen() throws FindFailed {
-        window = new Pattern(Props.getPathFor("ShootsCat.PNG"));
+        window = new Pattern(Props.pathFor("ShootsCat.PNG"));
         region = sDriver.wait(window);
         region.click(NextButton);
         return this;
@@ -97,7 +97,7 @@ public class InstallNumberok extends BaseInstall {
 
 
     public InstallNumberok installCatScreen() throws FindFailed {
-        window = new Pattern(Props.getPathFor("InstallCat.PNG"));
+        window = new Pattern(Props.pathFor("InstallCat.PNG"));
         region = sDriver.wait(window);
         region.click(NextButton);
         return this;
@@ -105,22 +105,22 @@ public class InstallNumberok extends BaseInstall {
 
 
     public InstallNumberok shortCutScreen() throws FindFailed {
-        window = new Pattern(Props.getPathFor("ShortCut.PNG"));
+        window = new Pattern(Props.pathFor("ShortCut.PNG"));
         region = sDriver.wait(window);
         region.click(NextButton);
         return this;
     }
 
     public InstallNumberok readyInstallScreen() throws FindFailed {
-        window = new Pattern(Props.getPathFor("redyInst.PNG"));
-        Pattern installButton = new Pattern(Props.getPathFor("installBut.PNG"));
+        window = new Pattern(Props.pathFor("redyInst.PNG"));
+        Pattern installButton = new Pattern(Props.pathFor("installBut.PNG"));
         region = sDriver.wait(window);
         region.click(installButton);
 
         return this;
     }
     public InstallNumberok waitForIt () throws FindFailed, InterruptedException {
-//        window = new Pattern (Proprs.getPathForRun("instProc.PNG"));
+//        window = new Pattern (Proprs.pathForRun("instProc.PNG"));
 //        sDriver.waitVanish(window); //не знаю но почему то не работает будет слип
         TimeUnit.SECONDS.sleep(13);
         return this;

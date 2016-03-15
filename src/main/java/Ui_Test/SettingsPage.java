@@ -30,27 +30,27 @@ public class SettingsPage extends MainController {
             switch (button) {
                 case 1:
                     if (general == null) {
-                        return general = new ButtonUtil(screen, Props.getPathForRun("General_Button.png"));
+                        return general = new ButtonUtil(screen, Props.pathForRun("General_Button.png"));
                     } else return general;
                 case 2:
                     if (connection == null) {
-                        return connection = new ButtonUtil(screen, Props.getPathForRun("Connection_button.png"));
+                        return connection = new ButtonUtil(screen, Props.pathForRun("Connection_button.png"));
                     } else return connection;
                 case 3:
                     if (checkpoint == null || switchedOperationMode) {
-                        return checkpoint = new ButtonUtil(screen, Props.getPathForRun("Checkpoint_Button.png"));
+                        return checkpoint = new ButtonUtil(screen, Props.pathForRun("Checkpoint_Button.png"));
                     } else return checkpoint;
                 case 4:
                     if (parking == null || switchedOperationMode) {
-                        return parking = new ButtonUtil(screen, Props.getPathForRun("Parking_Button.png"));
+                        return parking = new ButtonUtil(screen, Props.pathForRun("Parking_Button.png"));
                     } else return parking;
                 case 5:
                     if (integration == null || switchedOperationMode) {
-                        return integration = new ButtonUtil(screen, Props.getPathForRun("Integration_button.png"));
+                        return integration = new ButtonUtil(screen, Props.pathForRun("Integration_button.png"));
                     } else return integration;
                 case 6:
                     if (users == null || switchedOperationMode) {
-                        return users = new ButtonUtil(screen, Props.getPathForRun("Users_Button.png"));
+                        return users = new ButtonUtil(screen, Props.pathForRun("Users_Button.png"));
                     } else return users;
                 default:
                     System.out.println("Please choose from 1 - 6");
@@ -64,7 +64,7 @@ public class SettingsPage extends MainController {
     }
 
     public void clickApply() {
-        Pattern button = new Pattern(Props.getPathForRun("Apply_button_Settings.png"));
+        Pattern button = new Pattern(Props.pathForRun("Apply_button_Settings.png"));
         try {
             screen.click(button);
             TimeUnit.SECONDS.sleep(1);
@@ -75,14 +75,8 @@ public class SettingsPage extends MainController {
         }
     }
 
-    public GeneralSubPage onGeneral() {
-        if (gsp == null) {
-            gsp = new GeneralSubPage();
-        }
-        return gsp;
-    }
 
-    public GeneralSubPage clickGeneral() {
+    public void clickGeneral() {
         try {
             ButtonUtil button = getButton(1);
             screen.click(button.getPattern());
@@ -91,18 +85,15 @@ public class SettingsPage extends MainController {
             System.out.println(findFailed.getLocalizedMessage());
             try {
                 System.out.println("Trying to find inactive button ");
-                screen.click(Props.getPathForRun("General_NA_Button.png"));
+                screen.click(Props.pathForRun("General_NA_Button.png"));
             } catch (FindFailed findFailed1) {
                 System.out.println(findFailed1.getLocalizedMessage());
             }
         }
-        if (gsp == null) {
-            gsp = new GeneralSubPage();
-        }
-        return gsp;
+
     }
 
-    public ConnSubPage clickConnection() {
+    public SettingsPage clickConnection() {
         try {
             ButtonUtil button = getButton(2);
             // нужно создавать переменную что бы в методе stateSwitch не перевызвать метод get button
@@ -111,10 +102,10 @@ public class SettingsPage extends MainController {
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
         }
-        return new ConnSubPage();
+        return this;
     }
 
-    public CheckpointSubPage clickCheckpoint() {
+    public SettingsPage clickCheckpoint() {
         try {
             ButtonUtil button = getButton(3);
             screen.click(button.getPattern());
@@ -122,7 +113,7 @@ public class SettingsPage extends MainController {
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
         }
-        return new CheckpointSubPage();
+        return this;
     }
 
     public SettingsPage clickParking() {

@@ -1,6 +1,7 @@
 package Ui_Test;
 
 
+import org.sikuli.basics.Settings;
 import org.sikuli.script.App;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
@@ -16,14 +17,14 @@ abstract class AbstractPage {
     protected static App numberok;
     protected static Screen screen = new Screen();
 
-    public static void runNumberok() {
-        numberok = App.open(Props.getProperty("NumberOK.exe"));
-    }
+//    public static void runNumberok() {
+//        System.out.println(Props.getProperty("NumberOK.exe"));
+//        numberok = App.open(Props.getProperty("NumberOK.exe"));
+//    }
 
     public static void destroy() {
         numberok.close();
     }
-
 
     protected boolean isRunning() {
         try {
@@ -35,8 +36,8 @@ abstract class AbstractPage {
     }
 
     protected boolean focus() {
-        Pattern focused = new Pattern(Props.getPathForRun("_Focused.png"));
-        numberok.focus();
+        Pattern focused = new Pattern(Props.pathForRun("_Focused.png"));
+        App.focus("NumberOk");
         try {
             screen.find(focused);
             return true;
@@ -51,8 +52,8 @@ abstract class AbstractPage {
         }
     }
 
-    protected boolean isFocused (){
-        Pattern focused = new Pattern(Props.getPathForRun("_Focused.png"));
+    protected boolean isFocused() {
+        Pattern focused = new Pattern(Props.pathForRun("_Focused.png"));
         try {
             screen.find(focused);
             return true;
