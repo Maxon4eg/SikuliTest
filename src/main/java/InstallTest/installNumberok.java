@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
  * Created by DespicableMe on 17.02.2016.
  * Описание:
  */
-public class InstallNumberok extends BaseInstall {
+public class InstallNumberok {
 
     private final Screen sDriver;
     private Region region;
@@ -22,10 +22,6 @@ public class InstallNumberok extends BaseInstall {
 
     }
 
-    public static void runInstall(String version) {
-
-        BaseInstall.runInstall(Props.getProperty("installer.path") + version + Props.getProperty("installer"));
-    }
 
     public InstallNumberok langScreen() throws FindFailed {
         window = new Pattern(Props.pathFor("lang.png"));
@@ -60,7 +56,7 @@ public class InstallNumberok extends BaseInstall {
     public InstallNumberok hiScreen() throws FindFailed {
         window = new Pattern(Props.pathFor("Hi.PNG"));
         NextButton = new Pattern(Props.pathFor("nextButton.png"));
-        region = sDriver.wait(window,5000);
+        region = sDriver.wait(window, 5000);
         region.click(NextButton);
         return this;
     }
@@ -119,22 +115,33 @@ public class InstallNumberok extends BaseInstall {
 
         return this;
     }
-    public InstallNumberok waitForIt () throws FindFailed, InterruptedException {
+
+    public InstallNumberok waitForIt() throws FindFailed, InterruptedException {
 //        window = new Pattern (Proprs.pathForRun("instProc.PNG"));
 //        sDriver.waitVanish(window); //не знаю но почему то не работает будет слип
         TimeUnit.SECONDS.sleep(13);
         return this;
     }
 
-    public InstallNumberok drivers () throws FindFailed {
-        sDriver.mouseMove(11,35);
+    public InstallNumberok drivers() throws FindFailed {
+        sDriver.mouseMove(11, 35);
         InstallDrivers drivers = new InstallDrivers(sDriver);
         drivers.ftdi().device();
 
         return this;
     }
 
+    private static void runInstall(String pathInstaller) {
+        App installer = new App(pathInstaller);
+        installer.open().focus();
+    }
 
+    public static void runInstall(String version, boolean newVer) {
+        if (newVer) {
+            runInstall(Props.get("installer.path") + Props.get("installer"));
+        } else runInstall(Props.get("installer.path") + version + Props.get("installer"));
+
+    }
 
 
 }

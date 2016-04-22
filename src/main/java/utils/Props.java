@@ -19,7 +19,7 @@ public class Props {
     }
 
 
-    public static String getProperty(String key) {
+    public static String get(String key) {
         //just to use short name
         return PROPERTIES.getProperty(key);
     }
@@ -42,8 +42,6 @@ public class Props {
     }
 
 
-	public static void set (String key ,String value){
-        PROPERTIES.setProperty(key, value);
-    }
+
 
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="1521261323">
+    <data-source source="LOCAL" name="Sqlite (Xerial) - NumberOk.db" uuid="7af4afa1-b50b-4288-a5af-73f0bf0683b5">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\ProgramData\FF\NumberOk3\NumberOk.db</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="FireBird - NumberOk.fdb" uuid="5b13f403-c208-4b91-90cf-a144c79d4974">
+      <driver-ref>java.sql.Driver</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>org.firebirdsql.jdbc.FBDriver</jdbc-driver>
+      <jdbc-url>jdbc:firebirdsql://localhost:3050/C:/ProgramData/FF/NumberOk3/NumberOk3.fdb</jdbc-url>
+    </data-source>
+  </component>
+</project>
