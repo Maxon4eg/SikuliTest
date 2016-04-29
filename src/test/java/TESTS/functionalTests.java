@@ -1,31 +1,31 @@
-package TESTS;
+package tests;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import utils.Props;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import util.Props;
 
 
 public class functionalTests extends AbstractTest {
 
     private int channels = 2;
 
-    @Before
+    @BeforeMethod
     public void setUp() throws Exception {
         slave. pasteCleanIni(channels);
         slave.runNumberok();
-        Assert.assertTrue(slave.isAppear());
+        Assert.assertTrue(slave.waitAppearing());
         slave.maximize();
 //        slave.watchNumberok(); in future
     }
-    @After
+    @AfterMethod
     public void tearDown() throws Exception {
         slave.closeNumberok();
     }
 
     @Test
-    public void creatingCP() {
+    public void creatingCP()throws Exception {
         slave.onViewPage().howManyChannels();
         slave.clickSettings();
         slave.inGeneralSubPage().setOperationMode(2).clickApply();
@@ -62,16 +62,16 @@ public class functionalTests extends AbstractTest {
     }
 
     @Test
-    public void enablingZone() {
+    public void enablingZone()throws Exception {
         slave.clickView();
-        Assert.assertEquals("Channels ", slave.onViewPage().howManyChannels(), channels);
+        Assert.assertEquals(slave.onViewPage().howManyChannels(),channels,"channels is wrong");
         slave.clickSettings();
         slave.onSettingsPage().clickConnection();
         slave.inConnSubPage().switchVidSource(1).enableZone();
     }
 
     @Test
-    public void resultsCheck() {
+    public void resultsCheck () throws Exception {
         slave.onViewPage().howManyChannels();
         slave.clickSettings();
         slave.onSettingsPage().clickConnection();
@@ -98,7 +98,7 @@ public class functionalTests extends AbstractTest {
      */
 
     @Test
-    public void cpLogicEntry() {
+    public void cpLogicEntry()throws Exception {
         slave.clickSettings();
         slave.inGeneralSubPage().setOperationMode(2).clickApply();
         enablingZone();
@@ -127,7 +127,7 @@ public class functionalTests extends AbstractTest {
         slave.clickResults();
         slave. onResultsPage()
                 .clickRecognitionResults();
-        Assert.assertTrue("Direction appearing is invalid", slave.inRecognitionResults().entryLogic());
+        Assert.assertTrue(slave.inRecognitionResults().entryLogic(), "Direction appearing is invalid");
     }
 
 

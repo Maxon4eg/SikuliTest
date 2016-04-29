@@ -1,18 +1,22 @@
-package TESTS;
+package tests;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.sikuli.basics.Settings;
-import utils.Slave;
+import org.testng.annotations.BeforeClass;
+import util.Slave;
 
 
 public abstract class AbstractTest {
 
-    static Slave slave;
+    public static Slave slave;
 
     @BeforeClass
     public static void prepare() {
-//        Settings.ActionLogs = true;
+        Settings.ActionLogs = false;
+        Settings.InfoLogs = false;
+        Settings.DebugLogs = false;
+        Settings.ProfileLogs = false;
+        Settings.UserLogs = false;
+        Settings.MoveMouseDelay = (float) 0.3;
         slave = new Slave();
         slave.init();
         System.out.println("Preparing is successful. Have fun ! \n");

@@ -1,4 +1,4 @@
-package utils;
+package util;
 
 import Pages.*;
 import Pages.DBSubPage.*;
@@ -14,7 +14,7 @@ import java.nio.channels.FileChannel;
 public class Slave extends MainController {
 
     private Process numberok;
-//pages
+    //pages
     private ViewPage viewPage;
     private ResultsPage resultsPage;
     private CarDBPage carDBPage;
@@ -31,6 +31,9 @@ public class Slave extends MainController {
     private RecognitionResults recognitionResults;
     private GroupedResults groupedResults;
     private VehiclesSubPage vehiclesSubPage;
+    private GroupsAndACS groupsAndACS;
+    private ParkingResultsPage parkingResultsPage;
+    private ReactionsSubPage reactionsSubPage;
 
 
     public Slave init() {
@@ -38,6 +41,8 @@ public class Slave extends MainController {
         resultsPage = new ResultsPage();
         carDBPage = new CarDBPage();
         vehiclesSubPage = new VehiclesSubPage();
+        groupsAndACS = new GroupsAndACS();
+        reactionsSubPage = new ReactionsSubPage();
         reportsPage = new ReportsPage();
         settingsPage = new SettingsPage();
         generalSubPage = new GeneralSubPage();
@@ -47,11 +52,13 @@ public class Slave extends MainController {
         integrationSubPage = new IntegrationSubPage();
         recognitionResults = new RecognitionResults();
         groupedResults = new GroupedResults();
+        parkingResultsPage = new ParkingResultsPage();
         parkingSubPage = new ParkingSubPage();
         return this;
     }
 
     public void runNumberok() {
+        System.out.println("== Run Numberok");
         closeNumberok();
         try {
             numberok = Runtime.getRuntime().exec(Props.get("numberok.exe"));
@@ -68,6 +75,10 @@ public class Slave extends MainController {
         return resultsPage;
     }
 
+    public ParkingResultsPage inParkngResults() {
+        return parkingResultsPage;
+    }
+
     public CarDBPage onCarDbPage() {
         return carDBPage;
     }
@@ -75,6 +86,12 @@ public class Slave extends MainController {
     public VehiclesSubPage inVehiclesSubPage() {
         return vehiclesSubPage;
     }
+
+    public GroupsAndACS inGroupsAndACSPage() {
+        return groupsAndACS;
+    }
+
+    public ReactionsSubPage inReactionPage () {return reactionsSubPage;}
 
     public ReportsPage onReportsPage() {
         return reportsPage;
@@ -112,20 +129,26 @@ public class Slave extends MainController {
         return userSubPage;
     }
 
-    public IntegrationSubPage inIntegrationSubPage (){
+    public IntegrationSubPage inIntegrationSubPage() {
         return integrationSubPage;
     }
 
-    public ParkingSubPage inParkingSettingsPage (){
+    public ParkingSubPage inParkingSettingsPage() {
         return parkingSubPage;
     }
 
     public void closeNumberok() {
+        try {
+            Thread.sleep(500);//waiting before closing
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         App.close("NumberOk3.exe");
-        if (numberok!=null &&numberok.isAlive()) {
-            System.out.println(" Closing numberok ");
+        if (numberok != null && numberok.isAlive()) {
+            System.out.println("== Closing numberok ");
             numberok.destroy();
-        } else System.out.println("Numberok is closed");
+        }
+
     }
 
     /**

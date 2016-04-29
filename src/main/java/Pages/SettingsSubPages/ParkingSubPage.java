@@ -3,7 +3,7 @@ package Pages.SettingsSubPages;
 import Pages.SettingsPage;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
-import utils.Props;
+import util.Props;
 
 /**
  * Created by DespicableMe on 09.03.2016.

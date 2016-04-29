@@ -4,7 +4,7 @@ import Pages.CarDBPage;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Key;
 import org.sikuli.script.Pattern;
-import utils.Props;
+import util.Props;
 
 public class VehiclesSubPage extends CarDBPage {
     private final Pattern ID = new Pattern(Props.pathForRun("VehiclesSubPage_Ident.png"));

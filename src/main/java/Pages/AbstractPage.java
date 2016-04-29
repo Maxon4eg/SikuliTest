@@ -1,15 +1,13 @@
 package Pages;
 
 
-import org.junit.Assert;
 import org.sikuli.script.*;
+import util.Props;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
-import utils.Props;
 
 /**
  * Created by DespicableMe on 22.02.2016.
@@ -72,7 +70,7 @@ abstract class AbstractPage {
      * Removes db files
      */
 
-    public void rmDB() {
+    public void rmDB() {//// TODO: 26.04.2016  if Numberok is Running database will not remove
         File dir = new File(Props.get("numberokData.path"));
         File[] files;
         if (dir.isDirectory()) {
@@ -80,10 +78,11 @@ abstract class AbstractPage {
             assert files != null;
             // получаем все вложенные объекты в каталоге
             for (File item : files) {
-                if (item.getName().contains(".db")) item.delete();
+                if (item.getName().contains(".db")) {
+                    item.delete();
+                }
             }
         }
-
         System.out.println("Database is removed");
     }
 
@@ -100,12 +99,6 @@ abstract class AbstractPage {
                     } catch (InterruptedException e) {
                         System.out.println("Toucher's sleep is interrupted");
                     }
-                }
-                try {
-                    Assert.assertTrue(running);
-
-                } catch (AssertionError e) {
-                    System.out.println("Numberok is not running ");
                 }
                 Thread.currentThread().interrupt();
 
@@ -141,7 +134,57 @@ abstract class AbstractPage {
         screen.onVanish(new Pattern(Props.pathForRun("GreenFinger_MainMenu.png")));
         if (howLong == null) return screen.observe();
         else return screen.observe((Double) howLong);
-
     }
+
+
+    /**
+     * @param expectationTime time that we expect to appear reaction
+     * @return true if appeared false if not appeared
+     */
+    public boolean expectPopUP(int expectationTime) {
+        Region screenRegion = screen.getScreen();
+        Pattern reactionWin = new Pattern(Props.pathForRun("_VisualReaction_Window.png"));
+        try {
+            screenRegion.wait(reactionWin.exact(), expectationTime);
+            System.out.println("== Visual Reaction is appeared ");
+            return true;
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean isScreenShotPresent() {
+        Region screenRegion = screen.getScreen();
+        Pattern star = new Pattern(Props.pathForRun("_YellowStar.png"));
+        try {
+            screenRegion.find(star);
+            System.out.println("== Screenshot is present");
+            return true;
+        } catch (FindFailed findFailed) {
+            return false;
+        }
+    }
+
+
+    /**
+     * Closing reaction POP UP
+     *
+     * @return true if closing succes
+     */
+
+    public boolean closePopUp() {
+        Pattern winContr = new Pattern(Props.pathForRun("_winContr.png"));
+        Pattern reactionWin = new Pattern(Props.pathForRun("_VisualReaction_Window.png"));
+        try {
+            Region region = screen.find(reactionWin);
+            region.click(winContr.targetOffset(35, 0));
+            System.out.println("== Closing visual reaction");
+            return true;
+        } catch (FindFailed findFailed) {
+            return false;
+        }
+    }
+
 
 }

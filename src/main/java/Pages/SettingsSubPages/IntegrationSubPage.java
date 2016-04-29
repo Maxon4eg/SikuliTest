@@ -2,7 +2,7 @@ package Pages.SettingsSubPages;
 
 import Pages.SettingsPage;
 import org.sikuli.script.Pattern;
-import utils.Props;
+import util.Props;
 
 
 public class IntegrationSubPage extends SettingsPage {

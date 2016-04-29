@@ -4,8 +4,8 @@ import org.sikuli.script.FindFailed;
 import org.sikuli.script.Key;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Region;
-import utils.ButtonUtil;
-import utils.Props;
+import util.ButtonUtil;
+import util.Props;
 
 
 @SuppressWarnings("Duplicates")
@@ -14,10 +14,7 @@ public class MainController extends AbstractPage {
     protected static boolean switchedOperationMode = false;
     protected Pattern emptyCheckbox = new Pattern(Props.pathForRun("_EmptyCheckBox.png"));
 
-    private void getButtons(Region region) throws FindFailed {
-    }// may be ,
-
-    public ViewPage clickView() {
+    public ViewPage clickView() {//// TODO: 25.04.2016  deal with return; please make me to return control pages
 
         try {
             ButtonUtil view = new ButtonUtil(screen, Props.pathForRun("View_Button.png"));
@@ -25,13 +22,13 @@ public class MainController extends AbstractPage {
             stateSwitch = !checkState(view);//инвертируем потому что изначально view активный
         } catch (FindFailed findFailed) {
             try {
-                System.out.println("trying to click NA View Button ");
                 screen.click(Props.pathForRun("ViewNA_Button.png"));
             } catch (FindFailed findFailed1) {
                 System.out.println("can't click View button " + findFailed1.getLocalizedMessage());
                 System.out.println("can't click View button " + findFailed.getLocalizedMessage());
             }
         }
+        System.out.println("== Click View");
         return new ViewPage();
     }
 
@@ -43,6 +40,7 @@ public class MainController extends AbstractPage {
         } catch (FindFailed findFailed) {
             System.out.println("can't click results button " + findFailed.getMessage());
         }
+        System.out.println("== Click Results");
         return this;
     }
 
@@ -54,6 +52,7 @@ public class MainController extends AbstractPage {
         } catch (FindFailed findFailed) {
             System.out.println("can't click carDB button " + findFailed.getMessage());
         }
+        System.out.println("== Click car data base ");
         return this;
     }
 
@@ -65,6 +64,7 @@ public class MainController extends AbstractPage {
         } catch (FindFailed findFailed) {
             System.out.println("can't click Reports button " + findFailed.getMessage());
         }
+        System.out.println("== Click Reports");
         return this;
     }
 
@@ -76,26 +76,31 @@ public class MainController extends AbstractPage {
         } catch (FindFailed findFailed) {
             System.out.println("can't click Settings button " + findFailed.getMessage());
         }
+        System.out.println("== Click Settings");
         return this;
     }
 
 
-    public boolean isAppear() {
+    public boolean waitAppearing() {
+        System.out.println("== Wait for Appear ");
         Pattern menu = new Pattern(Props.pathForRun("Main_Page.png")).similar((float) 0.7);
         screen.onAppear(menu);
         return screen.observe(120);
     }
 
 
+
     public void maximize() {
-        Pattern pattern = new Pattern(Props.pathForRun("_winContr.png")).targetOffset(-10, 0);// смещение цели -x:left, -y:up
+        System.out.println("== Maximize window ");
+        Pattern pattern = new Pattern(Props.pathForRun("_winContr.png"));// смещение цели -x:left, -y:up
         Pattern menu = new Pattern(Props.pathForRun("Main_Page.png")).similar((float) 0.7);
         Region region;
         try {
             region = screen.find(menu);
             region.click(pattern);
         } catch (FindFailed findFailed) {
-            System.out.println("could not maximize");
+            findFailed.printStackTrace();
+            System.out.println("!could not maximize!");
         }
     }
 
@@ -116,25 +121,37 @@ public class MainController extends AbstractPage {
 
     protected void selector(int times) {
         String key;
-
-        if (times > 0) {
-            key = Key.DOWN;
-            for (int i = 0; i < times - 1; ++i) {
-                screen.type(key);
+        try {
+            if (times > 0) {
+                key = Key.DOWN;
+                if (times == 1) {
+                    Thread.sleep(500);
+                    screen.type(key);
+                }
+                for (int i = 0; i < times - 1; ++i) {
+                    Thread.sleep(500);
+                    screen.type(key);
+                }
+            } else {
+                key = Key.UP;
+                for (int i = 0; i < times - 1; --i) {// TODO : 17.03.2016 проверь как нибудь
+                    Thread.sleep(500);
+                    screen.type(key);
+                }
             }
-        } else {
-            key = Key.UP;
-            for (int i = 0; i < times - 1; --i) {// TODO : 17.03.2016 проверь как нибудь
-                screen.type(key);
-            }
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
     protected boolean isPage(Pattern page) {
+        System.out.println("== Assert that page is valid");
         try {
             screen.find(page.exact());
             return true;
         } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
             return false;
         }
     }

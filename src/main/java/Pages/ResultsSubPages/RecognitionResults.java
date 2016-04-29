@@ -2,11 +2,8 @@ package Pages.ResultsSubPages;
 
 import Pages.ResultsPage;
 import org.sikuli.basics.Settings;
-import org.sikuli.script.Observer;
-import org.sikuli.script.Pattern;
-import org.sikuli.script.Region;
-import org.sikuli.script.Sikulix;
-import utils.Props;
+import org.sikuli.script.*;
+import util.Props;
 
 /**
  * Created by DespicableMe on 10.03.2016.
@@ -17,7 +14,6 @@ public class RecognitionResults extends ResultsPage {
 
 
     private Pattern headers = new Pattern(Props.pathForRun("Headers_RecogResultsSubPage.png"));
-    private Region resultsRegion;
 
     /**
      * Как только появиться хоть одно изменение в регионе где появляються номера метод сразу возвращает
@@ -27,13 +23,10 @@ public class RecognitionResults extends ResultsPage {
      */
 
     public boolean isChanges() {
-        if (resultsRegion == null || resultsRegion.hasObserver()) {
-            resultsRegion = findRegion(headers);
-        }
+        Region resultsRegion = findRegion(headers);
         resultsRegion.onChange();
         return resultsRegion.observe(15);
     }
-
 
     /**
      * По умолчанию ждем изменение 10 Секунд
@@ -52,9 +45,8 @@ public class RecognitionResults extends ResultsPage {
      */
 
     public boolean isChanges(int howManyChangesWait, int howLongToWait) {
-        if (resultsRegion == null || resultsRegion.hasObserver()) {
-            resultsRegion = findRegion(headers);
-        }
+        Region resultsRegion = findRegion(headers);
+
         boolean changed = false;
         for (int i = 0; i < howManyChangesWait; i++) {
             resultsRegion.onChange();
@@ -66,14 +58,11 @@ public class RecognitionResults extends ResultsPage {
         return changed;
     }
 
-
     public boolean entryLogic() {
         Pattern attempt = new Pattern(Props.pathForRun("attemptToEnter_img.png")).exact();
         Pattern entry = new Pattern(Props.pathForRun("entry_RecognitionResults_img.png")).exact();
+        Region resultsRegion = findRegion(headers);
 
-        if (resultsRegion == null) {
-            resultsRegion = findRegion(headers);
-        }
         Settings.ObserveScanRate = (float) 1;
 
         resultsRegion.onAppear(attempt);
@@ -86,5 +75,47 @@ public class RecognitionResults extends ResultsPage {
 
     public boolean isValidPage() {
         return isPage(ID);
+    }
+
+    /**
+     * For catching reaction GREEN row color
+     * Please wait for appearing 3 or more results
+     *
+     * @param howLongToWait how long to wait SECONDS for appearing green rows
+     */
+
+    public boolean isReactionWorks(int howLongToWait) {
+        Pattern greenReaction = new Pattern(Props.pathForRun("GreenBOX_RecognitionResultSubPage.png"));
+        Region reactionRegion = getReactionRegion();
+        reactionRegion.onAppear(greenReaction);
+        System.out.println("== Wait for appear green row reaction");
+        return reactionRegion.observe(howLongToWait);
+    }
+
+    /**
+     * Param howLongTo wit May double if reactions truly don't work and waiting will be doubled
+     *
+     * @param howLongToWait how long to expect green box
+     * @return returns true if box is NOT appeared
+     */
+
+    public boolean isReactionNOTworks(int howLongToWait) {
+        Pattern greenReaction = new Pattern(Props.pathForRun("GreenBOX_RecognitionResultSubPage.png"));
+        Region reactionRegion = getReactionRegion();
+
+        if (reactionRegion.exists(greenReaction) != null) { // if green box still present in region
+            reactionRegion.onVanish(greenReaction);
+            reactionRegion.observe(howLongToWait);
+        }
+        reactionRegion = new Region(getReactionRegion());
+        reactionRegion.onAppear(greenReaction);
+        return !reactionRegion.observe(howLongToWait);
+    }
+
+    private Region getReactionRegion() {
+        Region firstNumbersRegion;
+        firstNumbersRegion = new Region(findRegion(headers).getRect());
+        firstNumbersRegion.setH(110);
+        return firstNumbersRegion;
     }
 }

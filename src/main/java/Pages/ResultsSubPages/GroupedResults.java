@@ -3,7 +3,7 @@ package Pages.ResultsSubPages;
 import Pages.ResultsPage;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Region;
-import utils.Props;
+import util.Props;
 
 public class GroupedResults extends ResultsPage {
     private final Pattern ID = new Pattern(Props.pathForRun("Headers_GroupedResultsSubPage.png"));

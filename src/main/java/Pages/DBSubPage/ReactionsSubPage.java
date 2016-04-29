@@ -2,41 +2,40 @@ package Pages.DBSubPage;
 
 import Pages.CarDBPage;
 import org.sikuli.script.*;
-import utils.Props;
+import util.Props;
+
 
 public class ReactionsSubPage extends CarDBPage {
     private final Pattern ID = new Pattern(Props.pathForRun("Reactions_Ident.png"));
 
 
-    private App reaction;
     private Region reactionEditor;
-
-    public boolean isEditorAppear() {
-        reaction = App.focus("Reaction editor");
-        if (reaction.isRunning()) {
-            reactionEditor = reaction.window();
-//            reactionEditor.highlight(1);
-            return true;
-        } else return false;
-    }
 
     public ReactionsSubPage addReaction() {
         try {
             screen.click(Props.pathForRun("Add_Button_ReactionSubPage.png"));
+            System.out.println("== Click Add Reaction.");
+            reactionEditor = screen.find(Props.pathForRun("ReactionEditor_ReactionSubPage.png"));
+            System.out.println("== Reaction Editor is Appear");
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
         }
         return this;
     }
 
-    public ReactionsSubPage removeReaction() {
+    public ReactionsSubPage clickRemove() {// // TODO: 25.04.2016  remake removing reaction
         try {
             screen.click(Props.pathForRun("RemoveReaction_Button_ReactionSubPage.png"));
+            System.out.println("== Click Remove ");
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
         }
         return this;
     }
+
+    /**
+     * @param choose choose reaction from dropdown from 1 - 3
+     */
 
     public ReactionsSubPage chooseEvents(int choose) {
         try {
@@ -44,50 +43,138 @@ public class ReactionsSubPage extends CarDBPage {
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
         }
-
         selector(choose);
+        reactionEditor.type(Key.ENTER);
         return this;
     }
 
+    /**
+     * Just click checkbox and set empty number
+     */
     public ReactionsSubPage byNumber() {
-        Pattern plateBox = new Pattern(Props.pathForRun("PlateNumber_Box_ReactionEditor.png"));
-        try {
-            reactionEditor.click(plateBox);
-        } catch (FindFailed findFailed) {
-            findFailed.printStackTrace();
-        }
-        return this;
+        return byNumber("");
     }
 
+    /**
+     * Set reaction by number
+     *
+     * @param number by which number
+     */
     public ReactionsSubPage byNumber(String number) {
         Pattern plateBox = new Pattern(Props.pathForRun("PlateNumber_Box_ReactionEditor.png"));
         try {
             reactionEditor.click(plateBox);
             reactionEditor.click(plateBox.targetOffset(0, 10));
             reactionEditor.type(number);
+            System.out.println("== Set reaction By number : " + number);
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
         }
         return this;
     }
 
-    public ReactionsSubPage useCountry (String country){
+    public ReactionsSubPage useCountry(String country) {
         Pattern use = new Pattern(Props.pathForRun("UseCountry_Box_ReactionEditor.png"));
         try {
             reactionEditor.click(use);
-            reactionEditor.click(use.targetOffset(25,0));
-            reactionEditor.type(country+ Key.ENTER);
+            reactionEditor.click(use.targetOffset(40, 0));
+            reactionEditor.type(country + Key.ENTER);
+            System.out.println("== Set Reaction by Country : " + country);
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
         }
         return this;
     }
 
-    public boolean isValidPage(){
-        return isPage(ID);
+    /**
+     * Color of ROW will be GREEN
+     */
+
+    public ReactionsSubPage setVisualReaction() {
+        try {
+            reactionEditor.click(Props.pathForRun("SetVisualReaction_ReactionSubPage.png"));
+            System.out.println("== Set Visual Reaction");
+            reactionEditor.click(Props.pathForRun("SetRowColor_ReactionSubPage.png"));
+            Thread.sleep(500);
+            reactionEditor.click(new Pattern(Props.pathForRun("GreenRowColor_ReactionSubPage.png")).exact());
+            System.out.println("== Click  \"Set row color \" and Select Green Row ");
+            reactionEditor.click(new Pattern(Props.pathForRun("SetColorOKbutton_ReactionSubPage.png")).targetOffset(0, 20));
+            System.out.println("== Click \"Ok\" in color selector ");
+            Thread.sleep(50);
+        } catch (FindFailed | InterruptedException findFailed) {
+            findFailed.printStackTrace();
+        }
+        return this;
     }
 
-//    public ReactionsSubPage selectType
+    /**
+     * Click on the firs reaction and then you can clickRemove() easily all reactions
+     */
 
+    public ReactionsSubPage clickOnTheFirstReaction() {
+        Pattern activeCheckBox = new Pattern(Props.pathForRun("ActiveCheckBox_ReactionSubPage.png")).similar((float) 0.68);
+        try {
+            screen.click(activeCheckBox);
+            System.out.println("== Click on the first reaction");
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+        return this;
+    }
+
+    public ReactionsSubPage showWindow(boolean always) {
+        try {
+            reactionEditor.click(Props.pathForRun("WindowCheckBox_ReactionEditor.png"));
+            System.out.println("== Set \"Window\" checkBox ");
+            if (!always) {
+                screen.click(Props.pathForRun("Show15Sec_ReactionEditor.png"));
+                System.out.println("== Set show 15 seconds");
+            }
+            screen.click(Props.pathForRun("ShowScren_ReactionEditor.png"));
+            System.out.println("== Set Show Screen Shot ");
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+        return this;
+    }
+
+
+    public ReactionsSubPage clickOK() {
+        try {
+            reactionEditor.click(Props.pathForRun("OK_warningMsg.png"));
+            System.out.println("== Click OK ");
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+
+        return this;
+    }
+
+    public ReactionsSubPage clickCancel() {
+        try {
+            reactionEditor.click(Props.pathForRun("Cancel_warningMsg.png"));
+            System.out.println("== Click Cancel");
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+        return this;
+    }
+
+    public ReactionsSubPage byZones () {
+        try {
+            reactionEditor.click(Props.pathForRun("ChannelZone_ReactionEditor.png"));
+            reactionEditor.click(Props.pathForRun("ChannelZone_Selector_ReactionEditor.png"));
+            reactionEditor.type(Key.SPACE);
+            Thread.sleep(25);
+            reactionEditor.type(Key.ENTER);
+        } catch (FindFailed | InterruptedException findFailed) {
+            findFailed.printStackTrace();
+        }
+        return this;
+    }
+
+    public boolean isValidPage() {
+        return isPage(ID);
+    }
 
 }

@@ -1,10 +1,9 @@
 package Pages.SettingsSubPages;
 
 import Pages.SettingsPage;
-import org.junit.Assert;
 import org.sikuli.script.*;
-import utils.ButtonUtil;
-import utils.Props;
+import util.ButtonUtil;
+import util.Props;
 
 import java.util.concurrent.TimeUnit;
 
@@ -116,12 +115,12 @@ public class ConnSubPage extends SettingsPage {
      * @param adress   ввести драесс
      */
 
-    public ConnSubPage typeConn(int dropdown, String login, String pass, String adress) {
+    public ConnSubPage typeConn(int dropdown, String login, String pass, String adress) throws Exception {
 
         try {
             screen.doubleClick(camDvr.offset(15, 0));
         } catch (FindFailed findFailed) {
-            Assert.assertTrue(findFailed.getLocalizedMessage(), false);
+            throw new Exception("Could not find cam dvr ");
         }
 
         for (int i = 0; i < dropdown; ++i) {
@@ -137,7 +136,7 @@ public class ConnSubPage extends SettingsPage {
             screen.click(Props.pathForRun("CamDVR_Adress_ConnSubPage.png"));
             screen.type(adress);
         } catch (FindFailed findFailed) {
-            Assert.assertTrue(findFailed.getLocalizedMessage(), false);
+            findFailed.printStackTrace();
         }
         return this;
     }
@@ -159,7 +158,7 @@ public class ConnSubPage extends SettingsPage {
         try {
             TimeUnit.SECONDS.sleep(1);
             Region region = screen.find(Props.pathForRun("Connect_Button_ConnSubPage.png"));
-            region.mouseMove(region.belowAt(-65));
+//            region.mouseMove(region.belowAt(-65)); move mouse to point where pick up color
             int rgb = region.belowAt(-65).getColor().getRGB();
             if (rgb == Props.getInt("RGB.Gray")) return false;
         } catch (FindFailed findFailed) {
@@ -217,7 +216,7 @@ public class ConnSubPage extends SettingsPage {
                     break;
             }
         } catch (FindFailed findFailed) {
-            Assert.assertTrue(findFailed.getLocalizedMessage(), false);
+            findFailed.printStackTrace();
         }
         return this;
     }
@@ -368,7 +367,7 @@ public class ConnSubPage extends SettingsPage {
      * старайся двигать максимум на +- 100
      *
      * @param x двигаем по горизонтали (+ВПРАВО) (-ВЛЕВО)
-     * @param y Двигаем по вертикали (+ВВНИ) (-ВВЕРХ)
+     * @param y Двигаем по вертикали (+ВНИЗ ? ) (-ВВЕРХ)
      */
 
     public ConnSubPage moveTopLeft(int x, int y) {
@@ -386,7 +385,7 @@ public class ConnSubPage extends SettingsPage {
      * старайся двигать максимум на +- 100
      *
      * @param x двигаем по горизонтали (+ВПРАВО) (-ВЛЕВО)
-     * @param y Двигаем по вертикали (+ВПРАВО) (-ВЛЕВО)
+     * @param y Двигаем по вертикали (+ВНИЗ ? ) (-ВВЕРХ)
      */
 
     public ConnSubPage moveTopRight(int x, int y) {

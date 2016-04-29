@@ -1,6 +1,5 @@
-package utils;
+package util;
 
-import com.sun.istack.internal.Nullable;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Location;
 import org.sikuli.script.Pattern;
@@ -37,7 +36,6 @@ public class ButtonUtil {
         return target_RGB;
     }
 
-    @Nullable // if sent nullPointer this means button is absent
     public Pattern getPattern() {
         return button;
     }

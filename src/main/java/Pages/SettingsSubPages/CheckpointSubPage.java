@@ -2,8 +2,8 @@ package Pages.SettingsSubPages;
 
 import Pages.SettingsPage;
 import org.sikuli.script.*;
-import utils.ButtonUtil;
-import utils.Props;
+import util.ButtonUtil;
+import util.Props;
 
 /**
  * Created by DespicableMe on 09.03.2016.

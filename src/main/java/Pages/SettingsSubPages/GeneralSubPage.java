@@ -2,11 +2,9 @@ package Pages.SettingsSubPages;
 
 
 import Pages.SettingsPage;
-import org.junit.Assert;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
-import org.sikuli.script.Region;
-import utils.Props;
+import util.Props;
 
 /**
  * Created by DespicableMe on 26.02.2016.
@@ -14,19 +12,6 @@ import utils.Props;
  */
 public class GeneralSubPage extends SettingsPage {
     private final Pattern ID = new Pattern(Props.pathForRun("GeneralSubPage_ident.png"));
-
-    private Region generalRegion() {
-//        clickGeneral();
-        Pattern page = new Pattern(Props.pathForRun("Settings_Page.png"));
-        try {
-            return screen.find(page);
-
-        } catch (FindFailed findFailed) {
-            findFailed.printStackTrace();
-            System.out.println("could not find settings region trying to go to General sub page");
-            return null;
-        }
-    }
 
     /**
      * @param mode - change mode param :
@@ -36,30 +21,33 @@ public class GeneralSubPage extends SettingsPage {
      */
 
     public GeneralSubPage setOperationMode(int mode) {
+        String setMode;
         Pattern modeButton;
-        Region region = generalRegion();
-        Assert.assertTrue(region != null);
         try {
             switch (mode) {
                 case 1:
                     modeButton = new Pattern(Props.pathForRun("Recog_mode.png")).targetOffset(-55, 0);
-                    region.click(modeButton);
                     switchedOperationMode = true;
-                    return this;
+                    setMode = "Recognition mode";
+                    break;
                 case 2:
                     modeButton = new Pattern(Props.pathForRun("Checkpoint_mode.png")).targetOffset(-100, 0);
-                    region.click(modeButton);
                     switchedOperationMode = true;
-                    return this;
+                    setMode = " Checkpoint mode ";
+                    break;
                 case 3:
                     modeButton = new Pattern(Props.pathForRun("Parking_mode.png")).targetOffset(-25, 0);
-                    region.click(modeButton);
                     switchedOperationMode = true;
-                    return this;
+                    setMode = " Parking Mode ";
+                    break;
                 default:
                     System.out.println("Please choose from 1-3");
-                    break;
+                    return this;
             }
+            System.out.println( "== Set operation mode to " + setMode);
+            screen.click(modeButton);
+
+            return this;
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
         }
@@ -67,7 +55,8 @@ public class GeneralSubPage extends SettingsPage {
     }
 
     /**
-     * @param chose 1 - ok 2 - cancel
+     * @param chose 1 - ok
+     *              <br>2 - cancel
      */
 
     public GeneralSubPage warningClick(int chose) {
@@ -77,12 +66,13 @@ public class GeneralSubPage extends SettingsPage {
                 case 1:
                     button = new Pattern(Props.pathForRun("OK_warningMsg.png"));
                     screen.click(button);
+                    System.out.println("== click OK in warning massage ");
                     return this;
                 case 2:
                     button = new Pattern(Props.pathForRun("Cancel_warningMsg.png"));
                     screen.click(button);
+                    System.out.println("== click Cancel in warning massage ");
                     return this;
-
             }
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
@@ -93,22 +83,25 @@ public class GeneralSubPage extends SettingsPage {
     /**
      * @param chose <br>1 - строгое сравнение
      *              <br> 2- мягкое
-     * @return
      */
 
-    public GeneralSubPage setComparsionMode(int chose) {
-        Pattern mode = null;
+    public GeneralSubPage setComparisonMode(int chose) {
+        String compMode;
+        Pattern mode ;
         switch (chose) {
             case 1:
                 mode = new Pattern(Props.pathForRun("StrongCom_Rad_GeneralSubPage.png"));
+               compMode = " Strong comparison ";
                 break;
             case 2:
                 mode = new Pattern(Props.pathForRun("SoftCom_Rad_GeneralSubPage.png"));
+                compMode = " Soft comparison ";
                 break;
             default:
-                break;
+                return this;
         }
         try {
+            System.out.println("== Set comparison mode to " + compMode);
             screen.click(mode);
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();

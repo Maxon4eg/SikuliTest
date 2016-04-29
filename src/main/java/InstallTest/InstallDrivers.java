@@ -4,7 +4,7 @@ import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Region;
 import org.sikuli.script.Screen;
-import utils.Props;
+import util.Props;
 
 /**
  * Created by DespicableMe on 18.02.2016.

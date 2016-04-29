@@ -1,26 +1,27 @@
-package TESTS;
+package tests;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import utils.NConfig;
-import utils.Props;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import util.NConfig;
+import util.Props;
 
 public class cpIn extends AbstractTest {
 
-    @Before
-    public void setUp() {
+    @Override
+    @BeforeMethod
+    public void setUp()throws Exception  {
         slave.pasteCleanIni(4);
         slave.runNumberok();
-        Assert.assertTrue(slave.isAppear());
+        Assert.assertTrue(slave.waitAppearing());
         slave.maximize();
 //        slave.watchNumberok();
         slave.clickSettings();
         setUpConnection();
     }
 
-    @After
+    @AfterMethod
     public void tearDown() throws Exception {
 //        closeProcceses();
         slave.closeNumberok();
@@ -42,11 +43,11 @@ public class cpIn extends AbstractTest {
     }
 
     @Test
-    public void scenario111() {
+    public void scenario111() throws Exception  {
         createCP(0, new int[]{1, 0, 1}, new int[]{1, 0, 1}, 2);
     }
 
-    private void setUpConnection() {
+    private void setUpConnection() throws Exception {
         slave.inGeneralSubPage().setOperationMode(2).clickApply();
         slave.onSettingsPage().clickConnection();
         slave.inConnSubPage()
@@ -69,7 +70,7 @@ public class cpIn extends AbstractTest {
 
     }
 
-    private void createCP(int checkpoint, int[] entry, int[] exit, int determination) {
+    private void createCP (int checkpoint, int[] entry, int[] exit, int determination) throws Exception  {
         slave.onSettingsPage().clickCheckpoint();
         if (checkpoint > 0) {
             slave.inCheckpointSubPage().swichCP(checkpoint);

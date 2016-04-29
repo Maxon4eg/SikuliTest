@@ -1,4 +1,4 @@
-package utils;
+package util;
 
 import java.sql.*;
 
@@ -65,7 +65,7 @@ public class DBWorker {
      *
      * @param column in which column the data expects to be
      * @param number by number
-     * @param data   data is must be.
+     * @param data   data is must be. (Its expected data)
      * @return true if contains data
      */
 

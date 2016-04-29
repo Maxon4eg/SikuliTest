@@ -1,12 +1,11 @@
 package Pages;
 
 
-import org.junit.Assert;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Location;
 import org.sikuli.script.Match;
 import org.sikuli.script.Pattern;
-import utils.Props;
+import util.Props;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +19,7 @@ import java.util.Iterator;
 public class ViewPage extends MainController {
     private ArrayList<Location> sources;
 
-    private void findChann() {
+    private void findChann() throws Exception {
         sources = new ArrayList<>();
         Pattern notConn = new Pattern(Props.pathForRun("VidNotConn_ViewPage.png"));
         try {
@@ -31,7 +30,7 @@ public class ViewPage extends MainController {
             Collections.sort(sources);//соритруем
             Collections.reverse(sources);//переворачиваем , с конца на начало // TODO: 17.03.2016 Сделай сортировку массива соответсвенно нумерации канала
         } catch (FindFailed findFailed) {
-            Assert.assertTrue(findFailed.getLocalizedMessage(), false);
+            throw new Exception("Could'nt find channel");
         }
     }
 
@@ -55,7 +54,7 @@ public class ViewPage extends MainController {
         return false;
     }
 
-    public int howManyChannels() {
+    public int howManyChannels() throws Exception {
         if (sources == null) {
             findChann();
         }

@@ -2,8 +2,8 @@ package Pages;
 
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
-import utils.ButtonUtil;
-import utils.Props;
+import util.ButtonUtil;
+import util.Props;
 
 /**
  * Created by DespicableMe on 09.03.2016.

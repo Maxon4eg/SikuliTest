@@ -1,7 +1,7 @@
 package InstallTest;
 
 import org.sikuli.script.*;
-import utils.Props;
+import util.Props;
 
 import java.util.concurrent.TimeUnit;
 

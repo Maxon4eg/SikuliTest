@@ -2,13 +2,13 @@ package installing;
 
 
 import InstallTest.InstallNumberok;
-import org.junit.Assert;
-import org.junit.Test;
 
 
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Screen;
-import utils.Props;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import util.Props;
 
 
 /**
@@ -19,7 +19,7 @@ public class installTest {
     final Screen sDriver = new Screen();
     String version = "1895";
     String key = "4Chan.USA";
-    @Test
+//    @Test
     public void install() {
         System.out.println("Installing started");
         InstallNumberok install = new InstallNumberok(sDriver);
@@ -40,7 +40,7 @@ public class installTest {
                     .waitForIt()
                     .drivers();
         } catch (FindFailed findFailed) {
-            Assert.assertTrue(findFailed.getMessage(),false);
+            Assert.assertTrue(false, findFailed.getMessage());
             return;
         } catch (InterruptedException e) {
             e.printStackTrace();

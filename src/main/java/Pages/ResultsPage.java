@@ -3,8 +3,8 @@ package Pages;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Region;
-import utils.ButtonUtil;
-import utils.Props;
+import util.ButtonUtil;
+import util.Props;
 
 /**
  * Created by DespicableMe on 09.03.2016.
@@ -13,9 +13,9 @@ import utils.Props;
 @SuppressWarnings("Duplicates")//recheck later
 
 public class ResultsPage extends MainController {
-    private final Pattern ID = new Pattern(Props.pathForRun(""));
 
-    public ResultsPage clickGrouped() {
+    public ResultsPage clickGrouped() throws FindFailed {
+        System.out.println("== Click Grouped By Number ");
         ButtonUtil grouped;
         try {
             grouped = new ButtonUtil(screen, Props.pathForRun("Grouped_Button_ResultsPage.png"));
@@ -23,50 +23,41 @@ public class ResultsPage extends MainController {
             screen.click(grouped.getPattern());
             checkState(grouped);
         } catch (FindFailed findFailed) {
-            System.out.println("can't find NA button. Trying to find Active Button");
-            ButtonUtil groupedA;
             try {
-                groupedA = new ButtonUtil(screen, Props.pathForRun("Grouped_Active_Button_ResultsPage.png"));
-                screen.click(groupedA.getPattern());
+                grouped = new ButtonUtil(screen, Props.pathForRun("Grouped_Active_Button_ResultsPage.png"));
+                screen.click(grouped.getPattern());
             } catch (FindFailed findFailed1) {
-                findFailed1.printStackTrace();
+                throw new FindFailed("Cant find button Grouped");
             }
         }
         return this;
     }
 
-    public ResultsPage clickParkings() {
+    public ResultsPage clickParkings() throws FindFailed {
+        System.out.println("== Click Parkings");
         ButtonUtil parkings;
         try {
             parkings = new ButtonUtil(screen, Props.pathForRun("Parkings_Button_ResultsPage.png"));
             screen.click(parkings.getPattern());
             checkState(parkings);
         } catch (FindFailed findFailed) {
-            System.out.println("can't find NA button trying to find Active Button");
-            ButtonUtil parkingsA;
-            try {
-                parkingsA = new ButtonUtil(screen, Props.pathForRun("Parkings_A_Button_ResultsPage.png"));
-                screen.click(parkingsA.getPattern());
-            } catch (FindFailed findFailed1) {
-                findFailed1.printStackTrace();
-            }
+            parkings = new ButtonUtil(screen, Props.pathForRun("Parkings_A_Button_ResultsPage.png"));
+            screen.click(parkings.getPattern());
         }
         return this;
     }
 
-    public ResultsPage clickRecognitionResults() {
+    public ResultsPage clickRecognitionResults() throws FindFailed {
+        System.out.println("== Click Recognition results");
+        ButtonUtil recResults;
         try {
-            ButtonUtil recResults = new ButtonUtil(screen, Props.pathForRun("RecognitionResults_Button_ResutlsPage.png"));
-            screen.click(recResults);
+            recResults = new ButtonUtil(screen, Props.pathForRun("RecognitionResults_Button_ResutlsPage.png"));
+            screen.click(recResults.getLocation());
             checkState(recResults);
         } catch (FindFailed findFailed) {
-            System.out.println("can't find active Button! trying to click not active");
-            try {
-                ButtonUtil recResutltsNA = new ButtonUtil(screen, Props.pathForRun("RecognitionResults_NA_Button_ResultsPage.png"));
-                checkState(recResutltsNA);
-            } catch (FindFailed findFailed1) {
-                System.out.println(findFailed1.getLocalizedMessage());
-            }
+            recResults = new ButtonUtil(screen, Props.pathForRun("RecognitionResults_NA_Button_ResultsPage.png"));
+            screen.click(recResults.getLocation());
+            checkState(recResults);
         }
         return this;
     }
@@ -82,10 +73,5 @@ public class ResultsPage extends MainController {
             return null;
         }
     }
-
-    public boolean isValidPage(){
-        return isPage(ID);
-    }
-
 
 }

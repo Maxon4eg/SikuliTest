@@ -4,13 +4,13 @@ import Pages.CarDBPage;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Region;
-import utils.Props;
+import util.Props;
 
 /**
  * Created by DespicableMe on 09.03.2016.
  * Описание:
  */
-public class GroupsSubPage extends CarDBPage {
+public class GroupsAndACS extends CarDBPage {
     private final Pattern ID = new Pattern(Props.pathForRun("GeneralSubPage_ident.png"));
 
     private Region groupsRegion;
@@ -30,13 +30,13 @@ public class GroupsSubPage extends CarDBPage {
             date.highlight(1);
             date.doubleClick(emptyCheckbox);
             date.click();
-        } catch (FindFailed findFailed){
+        } catch (FindFailed findFailed) {
             System.out.println(findFailed.getLocalizedMessage());
         }
         return date;
     }
 
-    public GroupsSubPage setAllowBy(int by) {
+    public GroupsAndACS setAllowBy(int by) {
         Region date = allowByDate();
         try {
             switch (by) {
@@ -51,13 +51,46 @@ public class GroupsSubPage extends CarDBPage {
                     date.click(timeCheckbox.targetOffset(-20, 0));
                     break;
             }
-        } catch (FindFailed findFailed){
+        } catch (FindFailed findFailed) {
             System.out.println(findFailed.getLocalizedMessage());
         }
         return this;
     }
 
-    public boolean isValidPage(){
+    /**
+     * Check is group in current mode correct ?
+     *
+     * @param mode Which mode is currently on ?
+     *             <br> 1 - recognition
+     *             <br> 2 - CP or Parking
+     * @return true if headers of group is correct
+     */
+
+    public boolean isGoupsInModeCorrect(int mode) {
+        String s = mode == 1 ? " Recognition mode " : " Groups OR Parking mode ";
+        Pattern headers;
+        switch (mode) {
+            case 1:
+                headers = new Pattern(Props.pathForRun("GroupsHeadersInRecogMod_GroupsAndACSPage.png")).exact();
+                break;
+            case 2:
+                headers = new Pattern(Props.pathForRun("GroupsHeadersInOtherMod_GroupsAndACSPage.png")).exact();
+                break;
+            default:
+                System.out.println("please choose 1 or 2");
+                return false;
+        }
+
+        try {
+            screen.find(headers);
+            System.out.println("== Groups in " + s + "  is Correct");
+            return true;
+        } catch (FindFailed findFailed) {
+            return false;
+        }
+    }
+
+    public boolean isValidPage() {
         return isPage(ID);
     }
 

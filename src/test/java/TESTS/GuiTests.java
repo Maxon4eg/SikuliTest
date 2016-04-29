@@ -1,35 +1,25 @@
-package TESTS;
+package tests;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class GuiTests extends AbstractTest {
 
 
-    @Before
+    @BeforeMethod
     public void setUp() throws Exception  {
         slave.pasteCleanIni(2);
         slave.runNumberok();
-        Assert.assertTrue(slave.isAppear());
+        Assert.assertTrue(slave.waitAppearing());
         slave.maximize();
     }
 
 
-    @After
+    @AfterMethod
     public void tearDown() throws Exception {
         slave.closeNumberok();
-    }
-
-    @Test
-    public void Test9Channels() {
-        Assert.assertEquals("Expected 2 channels", 2, slave.onViewPage().howManyChannels());
-    }
-
-//    @Test
-    public void isPagesCorrect (){
-
     }
 
     @Test
@@ -46,25 +36,27 @@ public class GuiTests extends AbstractTest {
 
         Assert.assertTrue(slave.clickSettings().isStateSwitched());
         Assert.assertTrue(slave.onSettingsPage().clickConnection().isStateSwitched());
-        Assert.assertTrue("Connection page is'nt valid ",slave.inConnSubPage().isValidPage());
+        Assert.assertTrue(slave.inConnSubPage().isValidPage(), "Connection page is'nt valid ");
 
         Assert.assertTrue(slave.onSettingsPage().clickIntegration().isStateSwitched());
-        Assert.assertTrue("Page is'nt valid ",slave.inConnSubPage().isValidPage());
+        Assert.assertTrue(slave.inConnSubPage().isValidPage(), "Page is'nt valid ");
 
         Assert.assertTrue(slave.onSettingsPage().clickUsers().isStateSwitched());
-        Assert.assertTrue("Users page is'nt valid ",slave.inUsersSubPage().isValidPage());
+        Assert.assertTrue(slave.inUsersSubPage().isValidPage(), "Users page is'nt valid ");
 
         slave.onSettingsPage().clickGeneral();
-        Assert.assertTrue("General sub page is'nt valid ",slave.inGeneralSubPage().isValidPage());
-//      Do this in other test
-//        slave.inGeneralSubPage().setOperationMode(2).clickApply();
-//        Assert.assertTrue(slave.onSettingsPage().clickCheckpoint().isStateSwitched());
-//        Assert.assertTrue("Checkpoint sub page is'nt valid ",slave.inCheckpointSubPage().isValidPage());
-//
-//        slave.onSettingsPage().clickGeneral();
-//        slave.inGeneralSubPage().setOperationMode(3).clickApply();
-//        Assert.assertTrue(slave.onSettingsPage().clickParking().isStateSwitched());
-//        Assert.assertTrue("Parking sub page is'nt valid ",slave.inParkingSettingsPage().isValidPage());
+        Assert.assertTrue(slave.inGeneralSubPage().isValidPage(), "General sub page is'nt valid ");
+
+        slave.inGeneralSubPage().setOperationMode(2).clickApply();
+        Assert.assertTrue(slave.onSettingsPage().clickCheckpoint().isStateSwitched());
+        Assert.assertTrue(slave.inCheckpointSubPage().isValidPage(), "Checkpoint sub page is'nt valid ");
+
+        slave.onSettingsPage().clickGeneral();
+        slave.inGeneralSubPage().setOperationMode(3).clickApply();
+        Assert.assertTrue(slave.onSettingsPage().clickParking().isStateSwitched());
+        Assert.assertTrue(slave.inParkingSettingsPage().isValidPage(), "Parking sub page is'nt valid ");
+
+
     }
 
     @Test
