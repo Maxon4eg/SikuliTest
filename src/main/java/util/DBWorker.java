@@ -1,5 +1,6 @@
 package util;
 
+
 import java.sql.*;
 
 public class DBWorker {
@@ -17,14 +18,14 @@ public class DBWorker {
     }
 
 
-    private String getStringData(String query, String column) throws ClassNotFoundException, SQLException {
+    private String getStringData(String query, String col) throws ClassNotFoundException, SQLException {
         String result;
-        System.out.println("Executing query :" + query);
+        System.out.println("Executing query : " + query);
         rs = getRs(query);
         if (!rs.next()) {
             return null;
         } else {
-            result = rs.getString(column);
+            result = rs.getString(col);
         }
         closeDb();
         return result;
@@ -32,7 +33,7 @@ public class DBWorker {
 
     private Integer getIntData(String query, String column) throws SQLException, ClassNotFoundException {
         Integer result;
-        System.out.println("Executing query :" + query);
+        System.out.println("Executing query = " + query);
         rs = getRs(query);
         if (!rs.next()) {
             return null;
@@ -52,28 +53,6 @@ public class DBWorker {
 
 
     /**
-     * The query is "SELECT * FROM cars WHERE number LIKE \'" + number + "\'"
-     * <p/>
-     * number/owner/description/NOTES
-     * allowMode
-     * ref_Group
-     * access
-     * DURATIONUSE
-     * DURATIONTIME
-     * COUNTUSE
-     * COUNTVALUE
-     *
-     * @param column in which column the data expects to be
-     * @param number by number
-     * @param data   data is must be. (Its expected data)
-     * @return true if contains data
-     */
-
-    public boolean isDataInCarsCorrect(String column, String number , Object data) {
-        return isDataPresentIn("SELECT * FROM cars WHERE number LIKE \'" + number + "\'", column, data);
-    }
-
-    /**
      * "SELECT * FROM groups WHERE groupName LIKE 'gropName'"
      * <p/>
      * <br> groupName
@@ -90,43 +69,55 @@ public class DBWorker {
      * <br>COUNTVALUE
      * <br>DRANGE_ENABLED
      * <br>TRANGE_ENABLED
-     *
-     * @param data
      */
-    public boolean isDataInGroupsCorrect(String gropName, String column, Integer data) {
-        return isDataPresentIn("SELECT * FROM groups WHERE groupName LIKE \'" + gropName + "\'", column, data);
+
+    private boolean isInteger(String col) {
+        switch (col) {
+            case "number":
+                return false;
+            case "owner":
+                return false;
+            case "description":
+                return false;
+            case "NOTES":
+                return false;
+            default:
+                return true;
+        }
     }
+
 
     /**
      * You can check in different tables
      * <p/>
      *
-     * @param query        which query should be
-     * @param column       wich column of Cars table
-     * @param ExpectedData which data to search in db
+     * @param query which query should be
      * @return true if contains data
      */
 
 
-    private boolean isDataPresentIn(String query, String column, Object ExpectedData) {
+    public Object getData(String query) {
         Object result;
+        String col = query.split("\\s+")[1];//for get an a column
+        System.out.println("the column is " + col);
         try {
-            if (ExpectedData.getClass().getCanonicalName().contains("String")) { // kind a switch if want integer or if want String
-                result = getStringData(query, column);
-            } else result = getIntData(query, column);
+            if (isInteger(col)) { // kind a switch if want integer or if want String
+                result = getIntData(query, col);
+            } else result = getStringData(query,col);
+
+
             if (result == null) {
                 throw new NullPointerException("Database is empty");
             }
         } catch (ClassNotFoundException | SQLException | NullPointerException e) {
-            System.out.println(e.getLocalizedMessage());
+            e.printStackTrace();
             return false;
         }
-        return result.equals(ExpectedData);
+        return result;
     }
 
     /**
      * For counting table "SELECT COUNT() FROM table
-     *
      * @param table which table we will count
      */
 

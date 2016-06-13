@@ -58,7 +58,7 @@ public class CheckpointSubPage extends SettingsPage {
      *                   если поставить больше чем есть на самом деле получишь либо findFailed либо nullPointer
      */
 
-    public void swichCP(int checkpoint) {
+    public CheckpointSubPage swichCP(int checkpoint) {
         try {
             ButtonUtil cp = findCP(checkpoint);
             if (cp != null) {
@@ -68,7 +68,7 @@ public class CheckpointSubPage extends SettingsPage {
         } catch (FindFailed findFailed) {
             System.out.println(findFailed.getLocalizedMessage());
         }
-
+        return this;
     }
 
     /**

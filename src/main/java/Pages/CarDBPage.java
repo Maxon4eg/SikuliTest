@@ -8,15 +8,17 @@ import util.Props;
  * Created by DespicableMe on 09.03.2016.
  * Описание:
  */
-@SuppressWarnings("Duplicates")
 public class CarDBPage extends MainController {
 
-    public CarDBPage clickGroups() {
+    public CarDBPage clickGroups() throws FindFailed {
+        ButtonUtil groups;
+        System.out.println("== Click Groups ");
         try {
-            ButtonUtil groups = new ButtonUtil(screen, Props.pathForRun("Groups_Button_CarDBSubPage.png"));
+            groups = new ButtonUtil(screen, Props.pathForRun("Groups_NA_Button_CarDBPage.png"));
             screen.click(groups.getPattern());
-            System.out.println("== Click Groups ");
         } catch (FindFailed findFailed) {
+            groups = new ButtonUtil(screen, Props.pathForRun("Groups_Button_CarDBSubPage.png"));
+            screen.click(groups.getPattern());
             System.out.println(findFailed.getLocalizedMessage());
         }
         return this;
@@ -24,16 +26,15 @@ public class CarDBPage extends MainController {
 
     public CarDBPage clickVehicles() {
         ButtonUtil vehicles;
+        System.out.println("== Click Vehicles ");
         try {
             vehicles = new ButtonUtil(screen, Props.pathForRun("Vehicles_Button_CarDBSubPage.png"));
             screen.click(vehicles.getPattern());
             checkState(vehicles);
-            System.out.println("== Click Vehicles ");
         } catch (FindFailed findFailed) {
             try {
                 vehicles = new ButtonUtil(screen, Props.pathForRun("Vehicles_Button_CarDBSubPage_NA.png"));
                 screen.click(vehicles.getPattern());
-                System.out.println("== Click Vehicles ");
                 checkState(vehicles);
             } catch (FindFailed findFailed1) {
                 System.out.println(findFailed.getLocalizedMessage());
@@ -43,10 +44,10 @@ public class CarDBPage extends MainController {
     }
 
     public CarDBPage clickReactions() throws FindFailed {
+        System.out.println("== Click Reactions");
         try {
             ButtonUtil reactions = new ButtonUtil(screen, Props.pathForRun("Reactions_Button_CarDBSubPage.png"));
             screen.click(reactions.getPattern());
-            System.out.println("== Click Reactions");
             checkState(reactions);
         } catch (FindFailed findFailed) {
             ButtonUtil reactionsNA = new ButtonUtil(screen, Props.pathForRun("Reactions_NA_Button_CarDBSubPage.png"));
@@ -58,10 +59,10 @@ public class CarDBPage extends MainController {
     }
 
     public void clickAdd() {
+        System.out.println("== Click Add");
         try {
             ButtonUtil add = new ButtonUtil(screen, Props.pathForRun("Add_Button_CarDBPage.png"));
             screen.click(add.getPattern());
-            System.out.println("== Click Add");
         } catch (FindFailed findFailed) {
             System.out.println(findFailed.getLocalizedMessage());
         }

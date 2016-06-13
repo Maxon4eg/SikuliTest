@@ -113,15 +113,6 @@ abstract class AbstractPage {
         }
     }
 
-    /**
-     * Waiting FOREVER of vanish green fingerprint  from the screen
-     *
-     * @return true if vanished
-     */
-
-    public boolean waitVanish() {
-        return waitVanish(null);
-    }
 
     /**
      * Waiting of vanish green fingerprint  from the screen
@@ -130,10 +121,9 @@ abstract class AbstractPage {
      * @return true if vanished
      */
 
-    public boolean waitVanish(Object howLong) {
+    public boolean waitVanish(int howLong) {
         screen.onVanish(new Pattern(Props.pathForRun("GreenFinger_MainMenu.png")));
-        if (howLong == null) return screen.observe();
-        else return screen.observe((Double) howLong);
+        return screen.observe(howLong);
     }
 
 
@@ -143,13 +133,14 @@ abstract class AbstractPage {
      */
     public boolean expectPopUP(int expectationTime) {
         Region screenRegion = screen.getScreen();
+        screenRegion.highlight(3);
         Pattern reactionWin = new Pattern(Props.pathForRun("_VisualReaction_Window.png"));
         try {
             screenRegion.wait(reactionWin.exact(), expectationTime);
             System.out.println("== Visual Reaction is appeared ");
             return true;
         } catch (FindFailed findFailed) {
-            findFailed.printStackTrace();
+            System.out.println("== Visual Reaction is NOT appeared ");
             return false;
         }
     }

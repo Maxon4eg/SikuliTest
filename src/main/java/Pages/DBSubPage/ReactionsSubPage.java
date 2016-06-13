@@ -1,7 +1,10 @@
 package Pages.DBSubPage;
 
 import Pages.CarDBPage;
-import org.sikuli.script.*;
+import org.sikuli.script.FindFailed;
+import org.sikuli.script.Key;
+import org.sikuli.script.Pattern;
+import org.sikuli.script.Region;
 import util.Props;
 
 
@@ -122,6 +125,11 @@ public class ReactionsSubPage extends CarDBPage {
         return this;
     }
 
+    /**
+     * by default we are showing screenshot
+     * @param always always show or 15 seconds ?
+     */
+
     public ReactionsSubPage showWindow(boolean always) {
         try {
             reactionEditor.click(Props.pathForRun("WindowCheckBox_ReactionEditor.png"));
@@ -160,14 +168,135 @@ public class ReactionsSubPage extends CarDBPage {
         return this;
     }
 
-    public ReactionsSubPage byZones () {
+    /**
+     * @param choose    to choose exact zone
+     */
+
+    public ReactionsSubPage byZones(int choose) {
+        return byZones(new int[]{choose});
+    }
+
+    /**
+     *
+     * @param choose [] the arr to choose several zones
+     *               <br> please count from " 0 "
+     *               <br> if its several zones ! !
+     */
+    public ReactionsSubPage byZones(int[] choose) {
         try {
-            reactionEditor.click(Props.pathForRun("ChannelZone_ReactionEditor.png"));
-            reactionEditor.click(Props.pathForRun("ChannelZone_Selector_ReactionEditor.png"));
-            reactionEditor.type(Key.SPACE);
-            Thread.sleep(25);
+
+            reactionEditor.click(Props.pathForRun("ChannelZone_ReactionEditor.png")); //set checkbox
+            reactionEditor.click(Props.pathForRun("ChannelZone_Selector_ReactionEditor.png"));// click on dropdown by zones
+            selector(choose);
             reactionEditor.type(Key.ENTER);
-        } catch (FindFailed | InterruptedException findFailed) {
+
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+        return this;
+    }
+
+
+    /**
+     * Please count from 0
+     * for multiple choosing please use overloaded method byChekpoint(int choose[])
+     *
+     * @param choose = countFrom "0"
+     * @return
+     */
+    public ReactionsSubPage byChekpoint(int choose) {
+        return byChekpoint(new int[]{choose});
+    }
+
+    /**
+     * if you want just set by checkpoint and all
+     */
+    public ReactionsSubPage byChekpoint() {
+        try {
+            reactionEditor.click(Props.pathForRun("ByCheckpoint_reactionSubPage.png"));
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+        System.out.println("= Set by checkpoint");
+        return this;
+    }
+
+    /**
+     * for multiple choosing byCheckpoint(new int []{})
+     *
+     * @param choose please count from "0"
+     */
+    public ReactionsSubPage byChekpoint(int choose[]) {
+        try {
+
+            reactionEditor.click(Props.pathForRun("CheckpointDropdown_ReactionsEditor.png"));
+            selector(choose);
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+        reactionEditor.type(Key.ENTER);
+        return this;
+    }
+
+    public ReactionsSubPage selectTypeOfCar() {
+        try {
+            reactionEditor.click(Props.pathForRun("TypeOfCar_ReactionEditor.png"));// TODO: 01.06.2016
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+        System.out.println("= Set by type of car ");
+        return this;
+    }
+
+    public ReactionsSubPage selectTypeOfCar(int groups[]) {
+        Pattern byGorup = new Pattern(Props.pathForRun("ByGroup_ReactionEditor.png"));
+        try {
+            reactionEditor.click(byGorup);//click on group
+            reactionEditor.click(byGorup.targetOffset(50, 0));// use target offset for click on dropdown
+            selector(groups);
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+        reactionEditor.type(Key.ENTER);
+        return this;
+    }
+
+    public ReactionsSubPage byDuration() {
+        try {
+            reactionEditor.click(Props.pathForRun("ByDuration_ReactionEditor.png"));
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+        return this;
+    }
+
+    public ReactionsSubPage setDuration(int minutes) {
+        return setDuration(minutes, false, 0);
+    }
+
+    public ReactionsSubPage setDuration(int minutes, int rangeMinutes) {
+        return setDuration(minutes, true, rangeMinutes);
+    }
+
+    private ReactionsSubPage setDuration(int minutes, boolean useRange, int rangeMinutes) {
+        Pattern rangeDur = new Pattern(Props.pathForRun("RangeDuration_ReactionEditor.png"));
+        try {
+
+            if (useRange) {
+                reactionEditor.click(rangeDur.targetOffset(-30, 0));// for targeting checkbox
+                reactionEditor.doubleClick(rangeDur.targetOffset(120, 0)); // click on minutes on range dur
+                reactionEditor.type(String.valueOf(rangeMinutes));
+                reactionEditor.type(Key.ENTER);
+            }
+
+            if (minutes == 0) { // to end of this shit if we only to want use range
+                return this;
+            }
+            reactionEditor.doubleClick(rangeDur.targetOffset(-120, 0)); // click on minutes by usual duration ! Works properly
+            reactionEditor.type(String.valueOf(minutes));
+            reactionEditor.type(Key.ENTER);
+
+        } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
         }
         return this;
@@ -176,5 +305,6 @@ public class ReactionsSubPage extends CarDBPage {
     public boolean isValidPage() {
         return isPage(ID);
     }
+
 
 }

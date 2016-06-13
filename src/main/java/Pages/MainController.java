@@ -7,6 +7,8 @@ import org.sikuli.script.Region;
 import util.ButtonUtil;
 import util.Props;
 
+import java.util.Arrays;
+
 
 @SuppressWarnings("Duplicates")
 public class MainController extends AbstractPage {
@@ -83,11 +85,17 @@ public class MainController extends AbstractPage {
 
     public boolean waitAppearing() {
         System.out.println("== Wait for Appear ");
-        Pattern menu = new Pattern(Props.pathForRun("Main_Page.png")).similar((float) 0.7);
-        screen.onAppear(menu);
-        return screen.observe(120);
+        Pattern menu = new Pattern(Props.pathForRun("Main_Page.png"));
+        Region screenRegion = screen.getScreen();
+        try {
+            screenRegion.wait(menu.exact(), 120);
+//            screenRegion.find(menu).highlight(1);
+            return true;
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+            return false;
+        }
     }
-
 
 
     public void maximize() {
@@ -119,24 +127,77 @@ public class MainController extends AbstractPage {
         return stateSwitch;
     }
 
-    protected void selector(int times) {
-        String key;
+
+    /**
+     * For multiple choose checkboxes from dropdown
+     *
+     * @param arr please count from 0
+     */
+
+
+    protected void selector(int arr[]) {
+        int maxValue = 0;
+        Arrays.sort(arr);
         try {
-            if (times > 0) {
-                key = Key.DOWN;
-                if (times == 1) {
-                    Thread.sleep(500);
-                    screen.type(key);
-                }
-                for (int i = 0; i < times - 1; ++i) {
-                    Thread.sleep(500);
-                    screen.type(key);
+            Thread.sleep(100);
+
+            if (arr.length == 1) {
+                int arrN = arr[0];
+                if (arrN == 0) {
+                    screen.type(Key.DOWN);
+                    screen.type(Key.SPACE);
+                } else {
+                    for (int i = 0; i < arrN; i++) {
+                        screen.type(Key.DOWN);
+                    }
+                    screen.type(Key.SPACE);
                 }
             } else {
-                key = Key.UP;
-                for (int i = 0; i < times - 1; --i) {// TODO : 17.03.2016 проверь как нибудь
+
+                for (int anArr1 : arr) {
+                    if (maxValue < anArr1) {
+                        maxValue = anArr1;
+                    }
+                }
+
+                for (int i = 0; i < maxValue + 1; i++) {
+                    screen.type(Key.DOWN);
+                    Thread.sleep(100);
+
+                    for (int anArr : arr) {
+                        if (anArr == i) {
+                            screen.type(Key.SPACE);
+                            Thread.sleep(100);
+                        }
+                    }
+                }
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+    protected void selector(int times) {
+        try {
+            if (times > 0) {
+                if (times == 1) {
                     Thread.sleep(500);
-                    screen.type(key);
+                    screen.type(Key.DOWN);
+                } else {
+
+                    for (int i = 0; i < times; ++i) {
+                        Thread.sleep(500);
+                        screen.type(Key.DOWN);
+                    }
+                }
+            } else {
+                for (int i = 0; i > times - 1; --i) {// TODO : 17.03.2016 проверь как нибудь
+                    Thread.sleep(500);
+                    screen.type(Key.UP);
                 }
             }
             Thread.sleep(500);

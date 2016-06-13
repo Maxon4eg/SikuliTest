@@ -367,7 +367,7 @@ public class ConnSubPage extends SettingsPage {
      * старайся двигать максимум на +- 100
      *
      * @param x двигаем по горизонтали (+ВПРАВО) (-ВЛЕВО)
-     * @param y Двигаем по вертикали (+ВНИЗ ? ) (-ВВЕРХ)
+     * @param y Двигаем по вертикали (+ВНИЗ) (-ВВЕРХ)
      */
 
     public ConnSubPage moveTopLeft(int x, int y) {
@@ -385,7 +385,7 @@ public class ConnSubPage extends SettingsPage {
      * старайся двигать максимум на +- 100
      *
      * @param x двигаем по горизонтали (+ВПРАВО) (-ВЛЕВО)
-     * @param y Двигаем по вертикали (+ВНИЗ ? ) (-ВВЕРХ)
+     * @param y Двигаем по вертикали (+ВНИЗ) (-ВВЕРХ)
      */
 
     public ConnSubPage moveTopRight(int x, int y) {

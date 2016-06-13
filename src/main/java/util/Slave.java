@@ -144,7 +144,7 @@ public class Slave extends MainController {
             e.printStackTrace();
         }
         App.close("NumberOk3.exe");
-        if (numberok != null && numberok.isAlive()) {
+        if (numberok != null) {
             System.out.println("== Closing numberok ");
             numberok.destroy();
         }
@@ -163,6 +163,7 @@ public class Slave extends MainController {
             destination = new FileOutputStream(Props.get("numberokData.path") + "NumberOk.ini").getChannel();
             destination.transferFrom(source, 0, source.size());
             source.close();
+            destination.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

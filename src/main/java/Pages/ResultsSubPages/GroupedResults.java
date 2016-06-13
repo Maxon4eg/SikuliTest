@@ -10,7 +10,7 @@ public class GroupedResults extends ResultsPage {
 
 
     private Region resultsRegion;
-    private Pattern headers = new Pattern(Props.pathForRun("Headers_GroupedResultsSubPage.png"));
+    private final Pattern headers = new Pattern(Props.pathForRun("Headers_GroupedResultsSubPage.png"));
 
     public boolean isChanges() {
         if (resultsRegion == null) {
@@ -43,6 +43,16 @@ public class GroupedResults extends ResultsPage {
         }
         return changed;
     }
+
+    private Region getReactionRegion() {
+        Region firstNumbersRegion;
+        firstNumbersRegion = new Region(findRegion(headers).getRect());
+        firstNumbersRegion.setH(110);
+        return firstNumbersRegion;
+    }
+
+
+
 
     public boolean isValidPage(){
         return isPage(ID);

@@ -1,9 +1,10 @@
-package tests;
+package tests.someTests;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import tests.AbstractTest;
 import util.Props;
 
 public class ConfigTests extends AbstractTest {
@@ -133,10 +134,8 @@ public class ConfigTests extends AbstractTest {
         System.out.println("=================== Test Description ===================" +
                 "    \n" +
                 "     * Тест при строгом сравнении в режиме КПП\n" +
-                "     * Тест на появление 100 результатов\n" +
-                "");
+                "     * Тест на появление 100 результатов\n");
 
-        System.out.println("testing with strong comparison in cp mode ");
         slave.clickSettings();
         slave.inGeneralSubPage()
                 .setOperationMode(2)
@@ -156,11 +155,9 @@ public class ConfigTests extends AbstractTest {
     @Test
     public void strongTest100ParkMode() throws Exception {
         System.out.println("============== Test Description ================" +
-                "    /**\n" +
+                "    \n" +
                 "     * Тест при строгом сравнении в режиме парковки\n" +
-                "     * Тест на появление 100 результатов\n" +
-                "     */");
-        System.out.println("testing  with strong comparison in park mode ");
+                "     * Тест на появление 100 результатов\n");
 
         slave.clickSettings();
         slave.inGeneralSubPage()
@@ -181,12 +178,10 @@ public class ConfigTests extends AbstractTest {
     @Test
     public void softTest100ParkMode() throws Exception {
         System.out.println("================= Test Description =================" +
-                "    /**\n" +
                 "     * Тест при мягком сравнении в режиме Парковки\n" +
                 "     * Тест на появление более 100 результатов\n" +
-                "     * при подключенных 2-х каналов\n" +
-                "     */");
-        System.out.println("Testing with soft comparison in park mode");
+                "     * при подключенных 2-х каналов\n");
+
         slave.clickSettings();
         slave.inGeneralSubPage()
                 .setComparisonMode(2)
@@ -247,7 +242,7 @@ public class ConfigTests extends AbstractTest {
     @Test
     public void softTest100CPMode() throws Exception {
         System.out.println("================= Test Description =================" +
-                "     * Тест при мягком сравнении в режиме КПП\n" +
+                "     * \n Тест при мягком сравнении в режиме КПП\n" +
                 "     * Тест на появление 100 результатов\n" +
                 "     * при подключенных 2-х каналов");
 
@@ -300,6 +295,4 @@ public class ConfigTests extends AbstractTest {
         slave.onSettingsPage().clickGeneral();//return back in gui
         slave.clickView();
     }
-
-
 }

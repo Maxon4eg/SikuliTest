@@ -34,8 +34,9 @@ public class RecognitionModeTesting extends AbstractTest {
         slave.clickCarDB();
         // go to groups to check validity of groups
         slave.onCarDbPage().clickGroups();
-        Assert.assertTrue(slave.inGroupsAndACSPage().isGoupsInModeCorrect(1), "Groups in current mode is not correct ");
+        Assert.assertTrue(slave.inGroupsAndACSPage().isGoupsInModeCorrect(1), "Groups in Recognition Mode is not correct ");
         //go to settings page
+        slave.clickSettings();
         testOnSettingsPages();
     }
 

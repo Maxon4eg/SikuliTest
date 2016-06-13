@@ -2,7 +2,8 @@ package Pages.ResultsSubPages;
 
 import Pages.ResultsPage;
 import org.sikuli.basics.Settings;
-import org.sikuli.script.*;
+import org.sikuli.script.Pattern;
+import org.sikuli.script.Region;
 import util.Props;
 
 /**
@@ -105,7 +106,7 @@ public class RecognitionResults extends ResultsPage {
 
         if (reactionRegion.exists(greenReaction) != null) { // if green box still present in region
             reactionRegion.onVanish(greenReaction);
-            reactionRegion.observe(howLongToWait);
+            return reactionRegion.observe(howLongToWait);
         }
         reactionRegion = new Region(getReactionRegion());
         reactionRegion.onAppear(greenReaction);

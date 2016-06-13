@@ -25,8 +25,6 @@ public class Props {
     }
 
     public static int getInt(String key){
-
-
         return new Integer(PROPERTIES.getProperty(key));
     }
 

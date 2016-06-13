@@ -1,14 +1,19 @@
 package tests;
 
+/**
+ *  For testing gui validity
+ *  While tests is executing numberOk is not closing
+ *  please be sure that you are not mess with opened pages
+ */
+
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class GuiTests extends AbstractTest {
 
-
-    @BeforeMethod
+    @BeforeClass
     public void setUp() throws Exception  {
         slave.pasteCleanIni(2);
         slave.runNumberok();
@@ -17,7 +22,7 @@ public class GuiTests extends AbstractTest {
     }
 
 
-    @AfterMethod
+    @AfterClass
     public void tearDown() throws Exception {
         slave.closeNumberok();
     }
@@ -39,10 +44,10 @@ public class GuiTests extends AbstractTest {
         Assert.assertTrue(slave.inConnSubPage().isValidPage(), "Connection page is'nt valid ");
 
         Assert.assertTrue(slave.onSettingsPage().clickIntegration().isStateSwitched());
-        Assert.assertTrue(slave.inConnSubPage().isValidPage(), "Page is'nt valid ");
+        Assert.assertTrue(slave.inIntegrationSubPage().isValidPage(), "Page Integration is'nt valid ");
 
         Assert.assertTrue(slave.onSettingsPage().clickUsers().isStateSwitched());
-        Assert.assertTrue(slave.inUsersSubPage().isValidPage(), "Users page is'nt valid ");
+        Assert.assertTrue(slave.inUsersSubPage().isValidPage(), "Users page Users is'nt valid ");
 
         slave.onSettingsPage().clickGeneral();
         Assert.assertTrue(slave.inGeneralSubPage().isValidPage(), "General sub page is'nt valid ");

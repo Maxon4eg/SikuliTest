@@ -1,7 +1,7 @@
 package tests;
 
 import org.sikuli.basics.Settings;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
 import util.Slave;
 
 
@@ -9,7 +9,7 @@ public abstract class AbstractTest {
 
     public static Slave slave;
 
-    @BeforeClass
+    @BeforeTest
     public static void prepare() {
         Settings.ActionLogs = false;
         Settings.InfoLogs = false;

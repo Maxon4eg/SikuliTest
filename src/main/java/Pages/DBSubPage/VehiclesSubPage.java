@@ -4,31 +4,54 @@ import Pages.CarDBPage;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Key;
 import org.sikuli.script.Pattern;
+import util.PlateNumber;
 import util.Props;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class VehiclesSubPage extends CarDBPage {
     private final Pattern ID = new Pattern(Props.pathForRun("VehiclesSubPage_Ident.png"));
 
-    /**
-     * Method types data in selected column
-     * Use only in created number
-     * if you want to update please use changeNumberData
-     *
-     * @param column :
-     *               <br>1- country  - Type Country
-     *               <br>2- Plate Number
-     *               <br>3- Owner
-     *               <br>4- Group (You may sent keys Key.DOWN)
-     *               <br>5- Car Description
-     *               <br>6- Notes
-     * @param text   Text you want to sent
-     * @see #changeNumberData
-     */
 
-    public VehiclesSubPage typeDataIn(int column, String text) {
+    public PlateNumber createNumber(String number) throws FindFailed {
+        Pattern defaultPlate = new Pattern(Props.pathForRun("DefaultPlate_VehiclesSubPage.png"));
+        BufferedImage img = null;
+        Rectangle rectangle;
         try {
-            screen.doubleClick(getDefaultColumnPattern(column));
-            screen.type(text);
+            rectangle = screen.find(defaultPlate.exact()).getRect();
+            screen.doubleClick(defaultPlate);
+            screen.type(number);
+            screen.mouseMove(-300, -100);
+            screen.type(Key.ENTER);
+            rectangle.grow(-10, 1);
+            img = screen.capture(rectangle).getImage();
+
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+        if (img != null) {
+            return new PlateNumber(img,number);
+        } else throw new FindFailed("Failed to create Plate Number Obj");
+
+    }
+
+    public void createNumber (PlateNumber number){
+        try {
+            screen.doubleClick(Props.pathForRun("DefaultPlate_VehiclesSubPage.png"));
+            screen.type(number.getName());
+            screen.type(Key.ENTER);
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+    }
+
+
+
+    public VehiclesSubPage setOwner (PlateNumber number , String data ){
+        try {
+            screen.doubleClick(number.getPattern().targetOffset(200,0));
+            screen.type(data);
             screen.type(Key.ENTER);
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
@@ -36,24 +59,28 @@ public class VehiclesSubPage extends CarDBPage {
         return this;
     }
 
-    private Pattern getDefaultColumnPattern(int column) {
-        switch (column) {
-            case 1:
-                return new Pattern(Props.pathForRun("DefaultCountry_VehiclesSubPage.png")).exact();
-            case 2:
-                return new Pattern(Props.pathForRun("DefaultPlate_VehiclesSubPage.png"));
-            case 3:
-                return new Pattern(Props.pathForRun("DefaultOwner_VehiclesSubPage.png"));
-            case 4:
-                return new Pattern(Props.pathForRun("DefaultGroup_VehiclesSubPage.png"));
-            case 5:
-                return new Pattern(Props.pathForRun("DefaultDesc_VehiclesSubPage.png"));
-            case 6:
-                return new Pattern(Props.pathForRun("DefaultNotes_VehiclesSubPage.png"));
-            default:
-                return null;
+    public VehiclesSubPage setGroup (PlateNumber number , String group ){
+        try {
+            screen.doubleClick(number.getPattern().targetOffset(400,0));
+            screen.type(group);
+            screen.type(Key.ENTER);
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
         }
+        return this;
     }
+
+    public VehiclesSubPage setDescr (PlateNumber number , String desctription ){
+        try {
+            screen.doubleClick(number.getPattern().targetOffset(600,0));
+            screen.type(desctription);
+            screen.type(Key.ENTER);
+        } catch (FindFailed findFailed) {
+            findFailed.printStackTrace();
+        }
+        return this;
+    }
+
 
     /**
      * @param filter выбор фильтра от 1-6
@@ -90,7 +117,6 @@ public class VehiclesSubPage extends CarDBPage {
         return this;
     }
 
-
     /**
      * Choose filter
      *
@@ -126,6 +152,7 @@ public class VehiclesSubPage extends CarDBPage {
         try {
             screen.click(getFilterTarget(2).targetOffset(0, -25));
             clickDelete();
+            clearFilter(2);
             return this;
         } catch (FindFailed findFailed) {
             findFailed.printStackTrace();
@@ -176,30 +203,8 @@ public class VehiclesSubPage extends CarDBPage {
      * @return true if warning massage is appear
      */
 
-    public boolean isWarningMsgPresent() {
-        Pattern defGroup = getDefaultColumnPattern(4);
-        clickAdd();
-        typeDataIn(2, "TestNumber");
-        try {
-            screen.doubleClick(defGroup);
-            Thread.sleep(500);// this is need because gui work is "magnificent"
-            screen.click();
-            screen.type(Key.DOWN);
-            screen.type(Key.ENTER);
-            //on this moment should be an a warning msg
-            //lets do the next steps in other try/catch
-        } catch (FindFailed | InterruptedException findFailed) {
-            findFailed.printStackTrace();
-        }
-        try {
-            screen.find(Props.pathForRun("warningMsg_VehiclesSubPage.png"));
-            return true;
-        } catch (FindFailed findFailed) {
-            return false;
-        }
-    }
 
-    public boolean isValidPage(){
+    public boolean isValidPage() {
         return isPage(ID);
     }
 

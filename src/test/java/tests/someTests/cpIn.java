@@ -1,9 +1,10 @@
-package tests;
+package tests.someTests;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import tests.AbstractTest;
 import util.NConfig;
 import util.Props;
 
@@ -16,9 +17,6 @@ public class cpIn extends AbstractTest {
         slave.runNumberok();
         Assert.assertTrue(slave.waitAppearing());
         slave.maximize();
-//        slave.watchNumberok();
-        slave.clickSettings();
-        setUpConnection();
     }
 
     @AfterMethod
@@ -27,7 +25,7 @@ public class cpIn extends AbstractTest {
         slave.closeNumberok();
     }
 
-
+    @Test
     public void assertCP() {
 
         Assert.assertEquals("channel Saved", Props.get("test.video"), NConfig.get("Channel1File"));
@@ -44,6 +42,7 @@ public class cpIn extends AbstractTest {
 
     @Test
     public void scenario111() throws Exception  {
+        slave.clickSettings();
         createCP(0, new int[]{1, 0, 1}, new int[]{1, 0, 1}, 2);
     }
 
