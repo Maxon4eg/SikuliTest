@@ -1,11 +1,11 @@
 package tests.RecognitionModeTesting;
 
-import tests.AbstractTest;
 import org.sikuli.script.FindFailed;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import tests.AbstractTest;
 import util.Props;
 
 import java.util.concurrent.TimeUnit;
@@ -25,6 +25,7 @@ public class ReactionTesting extends AbstractTest {
     @Override
     @AfterMethod
     public void tearDown() throws Exception {
+        System.out.println("== mem usage is " + slave.memUsage() + " Kb");
         slave.closeNumberok();
         Thread.sleep(500);
         slave.rmDB();
@@ -41,30 +42,10 @@ public class ReactionTesting extends AbstractTest {
                 .byNumber()
                 .setVisualReaction()
                 .clickOK();
-        enableVideo();
+        enableVideo(Props.get("test.video"));
         Assert.assertTrue(slave.inRecognitionResults().isReactionWorks(40), "Reaction is'n works ");
     }
 
-    @Test
-    public void testRemovingReaction() throws Exception {
-        slave.clickCarDB();
-        slave.onCarDbPage().clickReactions();
-        slave.inReactionPage()
-                .addReaction()
-                .chooseEvents(1)
-                .byNumber()
-                .setVisualReaction()
-                .clickOK();
-        enableVideo();
-        Assert.assertTrue(slave.inRecognitionResults().isReactionWorks(40), "Reaction is'nt works ");
-
-        slave.clickCarDB();
-        slave.inReactionPage()
-                .clickOnTheFirstReaction()
-                .clickRemove();
-        slave.clickResults();
-        Assert.assertTrue(slave.inRecognitionResults().isReactionNOTworks(30), "Removed reaction still works or its not removed ");
-    }
 
     @Test
     public void testPopUpWindow() throws Exception {
@@ -76,7 +57,7 @@ public class ReactionTesting extends AbstractTest {
                 .byNumber()
                 .showWindow(true)
                 .clickOK();
-        enableVideo();
+        enableVideo(Props.get("2numbs.video"));
         slave.clickResults();
         Assert.assertTrue(slave.expectPopUP(40), "Pop Up is not appeared");
         Assert.assertTrue(slave.isScreenShotPresent(), "Screenshot is missing ");
@@ -95,7 +76,7 @@ public class ReactionTesting extends AbstractTest {
                 .byNumber()
                 .showWindow(false)
                 .clickOK();
-        enableVideo();
+        enableVideo(Props.get("2numbs.video"));
         Assert.assertTrue(slave.expectPopUP(40), "Pop up is not appeared ");
         Assert.assertTrue(slave.isScreenShotPresent(), "screenshot is missing ");
         TimeUnit.SECONDS.sleep(16);
@@ -108,7 +89,7 @@ public class ReactionTesting extends AbstractTest {
         slave.onSettingsPage().clickConnection();
         slave.inConnSubPage()
                 .chooseConn(3)
-                .typeConn(3, Props.get("test.video"))
+                .typeConn(3, Props.get("2numbs.video"))
                 .enableZone();
 
         slave.clickCarDB();
@@ -133,12 +114,35 @@ public class ReactionTesting extends AbstractTest {
 
     }
 
-    private void enableVideo() throws FindFailed {
+
+    @Test
+    public void testRemovingReaction() throws Exception {
+
+        slave.clickCarDB();
+        slave.onCarDbPage().clickReactions();
+        slave.inReactionPage()
+                .addReaction()
+                .chooseEvents(1)
+                .byNumber()
+                .setVisualReaction()
+                .clickOK();
+        enableVideo(Props.get("test.video"));
+        Assert.assertTrue(slave.inRecognitionResults().isReactionWorks(40), "Reaction isn't works ");
+
+        slave.clickCarDB();
+        slave.inReactionPage()
+                .clickOnTheFirstReaction()
+                .clickRemove();
+        slave.clickResults();
+        Assert.assertTrue(slave.inRecognitionResults().isReactionNOTworks(30), "Removed reaction still works or its not removed ");
+    }
+
+    private void enableVideo(String videoPath) throws FindFailed {
         slave.clickSettings();
         slave.onSettingsPage().clickConnection();
         slave.inConnSubPage()
                 .chooseConn(3)
-                .typeConn(3, Props.get("test.video"))
+                .typeConn(3, videoPath)
                 .enableZone()
                 .clickConnect()
                 .clickApply();
